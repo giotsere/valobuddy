@@ -2,7 +2,7 @@ const Post = require('../models/Post');
 const mongoose = require('mongoose');
 
 exports.posts_get = async (req, res) => {
-  const posts = await Post.find({}).sort({ createdAt: -1 });
+  const posts = await Post.find({});
 
   res.status(200).json(posts);
 };

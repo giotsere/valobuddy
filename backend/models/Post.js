@@ -121,7 +121,7 @@ const postSchema = new Schema(
       ],
     },
     discord: { type: String },
-    riot: { type: String, required: true },
+    riot: { type: String },
   },
   { timestamps: true }
 );
