@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const pserSchema = new Schema(
+const userSchema = new Schema(
   {
     name: { type: String, required: true },
+    email: { type: String, required: true },
     rank: {
       type: String,
       required: true,
@@ -50,14 +51,12 @@ const pserSchema = new Schema(
       description: { type: String },
     },
     discord: { type: String },
-    riot: { type: String },
-    hash: { type: String },
-    salt: { type: String },
+    riot: { type: String, required: true },
   },
   { timestamps: true }
 );
 
-UserSchema.virtual('url').get(function () {
+userSchema.virtual('url').get(function () {
   return '/users/' + this._id;
 });
 

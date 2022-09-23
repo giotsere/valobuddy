@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const postSchema = new Schema(
   {
-    name: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    name: { type: String, required: true },
     rank: {
       type: String,
       required: true,
@@ -126,7 +126,7 @@ const postSchema = new Schema(
   { timestamps: true }
 );
 
-PostSchema.virtual('url').get(function () {
+postSchema.virtual('url').get(function () {
   return '/posts/' + this._id;
 });
 
