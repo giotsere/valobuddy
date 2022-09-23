@@ -4,10 +4,16 @@ const mongoose = require('mongoose');
 const mongoDB = process.env.MONGODB;
 
 const port = process.env.PORT;
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
-
-let db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error'));
+mongoose
+  .connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`Listening to port ${port}`);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -22,7 +28,3 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 app.use('/register', registrationRouter);
-
-app.listen(port, () => {
-  console.log(`Listening to port ${port}`);
-});
