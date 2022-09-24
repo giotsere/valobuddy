@@ -49,6 +49,12 @@ const postSchema = new Schema(
       ],
     },
     microphone: { type: String, enum: ['Yes', 'No'] },
+    roles: [
+      {
+        type: String,
+        enum: ['Sentinel', 'Controller', 'Initiator', 'Duelist'],
+      },
+    ],
     description: { type: String, required: true },
     lookingFrom: {
       type: String,
