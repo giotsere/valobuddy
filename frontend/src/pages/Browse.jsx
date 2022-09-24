@@ -1,6 +1,7 @@
 import React from 'react';
-import Post from '../components/Post';
+import { Link } from 'react-router-dom';
 import { useQuery, useQueryClient } from 'react-query';
+import Post from '../components/Post';
 
 function Browse() {
   const queryClient = useQueryClient();
@@ -25,8 +26,8 @@ function Browse() {
 
   return (
     <main>
-      <h2>Browse Players</h2>
-      <Link to="/create">Create Post </Link>
+      <h2 className="text-3xl font-bold underline">Browse Players</h2>
+      <Link to="/create">Create Post</Link>
       <section>
         {' '}
         {data.map((post) => (

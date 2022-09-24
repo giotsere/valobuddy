@@ -3,22 +3,26 @@ import React from 'react';
 function Post({ post }) {
   return (
     <div>
-      <p>{post.name}</p>
       <p>
-        <strong>Rank:</strong> {post.rank}
+        <span>Username: </span>
+        {post.name}
       </p>
       <p>
-        <strong>Region:</strong> {post.region}
+        <span>Rank:</span> {post.rank}
       </p>
       <p>
-        <strong>Microphone</strong> {post.microphone}
+        <span>Region:</span> {post.region}
       </p>
       <p>
-        <strong>Roles</strong>
+        <span>Microphone:</span>
+        {post.microphone}
+      </p>
+      <p>
+        <span>Roles:</span>
         {post.roles}
       </p>
       <p>
-        <strong>About:</strong> {post.description}
+        <span>About:</span> {post.description}
       </p>
       <p>Looking for players in range:</p>
       <div>
