@@ -1,4 +1,5 @@
 import React from 'react';
+import Post from '../components/Post';
 import { useQuery, useQueryClient } from 'react-query';
 
 function Browse() {
@@ -25,12 +26,11 @@ function Browse() {
   return (
     <main>
       <h2>Browse Players</h2>
+      <Link to="/create">Create Post </Link>
       <section>
         {' '}
         {data.map((post) => (
-          <div>
-            <li key={post._id}>{post.name}</li>
-          </div>
+          <Post key={post._id} post={post} />
         ))}
       </section>
     </main>
