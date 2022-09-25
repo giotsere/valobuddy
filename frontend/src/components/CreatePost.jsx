@@ -12,6 +12,61 @@ function CreatePost() {
   const [lookingRegion, setLookingRegion] = useState('NA');
   const [discord, setDiscord] = useState('');
   const [riot, setRiot] = useState('');
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const addPost = async (post) => {
+    const res = await fetch('http://localhost:3000/api/posts/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(post),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      console.log(data);
+      setError(data.error);
+      setLoading(false);
+      setSuccess(false);
+    }
+
+    if (res.ok) {
+      setName('');
+      setDescription('');
+      setMicrophone('No');
+      setRoles([]);
+      setError(null);
+      setLoading(false);
+      setSuccess(data);
+
+      document
+        .querySelectorAll('input[type=checkbox')
+        .forEach((el) => (el.checked = false));
+    }
+  };
+
+  const handleSubmit = (e) => {
+    setError(null);
+    setLoading(true);
+    e.preventDefault();
+    let newPost = {
+      name,
+      rank,
+      region,
+      microphone,
+      roles,
+      description,
+      lookingFrom,
+      lookingTo,
+      lookingRegion,
+      discord,
+      riot,
+    };
+
+    addPost(newPost);
+  };
 
   const handleCheckbox = (e) => {
     const checkedState = e.target.checked;
@@ -30,7 +85,10 @@ function CreatePost() {
     <div className="flex flex-col items-center">
       <h2 className="font-bold text-2xl mb-8 text-white">Create New Post</h2>
       <div className="w-4/5 lg:w-1/2">
-        <div className="py-8 pl-10 mb-20 rounded-md bg-white">
+        <form
+          onSubmit={handleSubmit}
+          className="py-8 pl-10 mb-20 rounded-md bg-white"
+        >
           <div className="mb-4">
             <label className="pr-4 font-bold">Name:</label>
             <input
@@ -51,7 +109,9 @@ function CreatePost() {
               name="rank"
               id=""
               type="select"
-              required="true"
+              onChange={(e) => {
+                setRank(e.target.value);
+              }}
             >
               <option value="Iron 1">Iron 1</option>
               <option value="Iron 2">Iron 2</option>
@@ -183,11 +243,11 @@ function CreatePost() {
                 id=""
                 cols="30"
                 rows="10"
-                required="true"
                 placeholder="About you"
                 type="textarea"
                 onChange={(e) => setDescription(e.target.value)}
                 value={description}
+                required="true"
               ></textarea>
             </div>
           </div>
@@ -298,7 +358,6 @@ function CreatePost() {
               name="discord"
               onChange={(e) => setDiscord(e.target.value)}
               value={discord}
-              required="true"
               placeholder="Discord Username"
             />
           </div>
@@ -310,15 +369,25 @@ function CreatePost() {
               name="riot"
               onChange={(e) => setRiot(e.target.value)}
               value={riot}
-              required="true"
               placeholder="Riot Username"
             />
           </div>
 
-          <button className="px-6 py-4 border-solid border rounded-md border-slate-900 text-slate-900 hover:bg-slate-900 hover:text-white font-bold">
+          <button
+            type="submit"
+            className="px-6 py-4 border-solid border rounded-md border-slate-900 text-slate-900 hover:bg-slate-900 hover:text-white font-bold"
+          >
             Submit
           </button>
-        </div>
+
+          <div className="mt-8 text-center font-bold">
+            {loading && <div className="text-orange-500">Adding Post...</div>}
+            {error && (
+              <div className="text-red-500">Error while adding post...</div>
+            )}
+            {success && <div className="text-green-500">Post Added!</div>}
+          </div>
+        </form>
       </div>
     </div>
   );

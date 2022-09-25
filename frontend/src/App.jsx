@@ -6,7 +6,7 @@ import CreatePost from './components/CreatePost';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App bg-slate-900 h-full">
       <BrowserRouter>
         <Navbar />
         <div className="pages">

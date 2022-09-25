@@ -1,5 +1,6 @@
 const Post = require('../models/Post');
 const mongoose = require('mongoose');
+const { body, validationResult } = require('express-validator');
 
 exports.posts_get = async (req, res) => {
   const posts = await Post.find({});
@@ -22,38 +23,49 @@ exports.post_details = async (req, res) => {
   res.status(200).json(post);
 };
 
-exports.post_create = async (req, res) => {
-  const {
-    name,
-    rank,
-    region,
-    microphone,
-    description,
-    lookingFrom,
-    lookingTo,
-    lookingRegion,
-    discord,
-    riot,
-  } = req.body;
+exports.post_create = [
+  (req, res, next) => {
+    if (!Array.isArray(req.body.roles)) {
+      req.body.roles =
+        typeof req.body.genre === 'undefined' ? [] : [req.body.genre];
+    }
+    next();
+  },
 
-  try {
-    const post = await Post.create({
-      name,
-      rank,
-      region,
-      microphone,
-      description,
-      lookingFrom,
-      lookingTo,
-      lookingRegion,
-      discord,
-      riot,
+  body('name', 'Name must not be empty').trim().isLength({ min: 1 }).escape(),
+  body('rank').escape(),
+  body('region').escape(),
+  body('roles.*').escape(),
+  body('description', 'Description must not be empty.')
+    .trim()
+    .isLength({ max: 300 })
+    .withMessage('must contain a number')
+    .escape()
+    .withMessage('Description must not be empty'),
+  body('lookingFrom').escape(),
+  body('lookingTo').escape(),
+  body('lookingRegion').escape(),
+  body('discord').trim().optional({ checkFalsy: true }).escape(),
+  body('riot').trim().optional({ checkFalsy: true }).escape(),
+
+  (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(404).json({ error: errors.array() });
+    }
+
+    const post = new Post({ ...req.body });
+
+    post.save((err) => {
+      if (err) {
+        return res.status(404).json({ error: err });
+      }
+
+      res.status(200).json(post);
     });
-    res.status(200).json(post);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-};
+  },
+];
 
 exports.post_delete = async (req, res) => {
   const { id } = req.params;
