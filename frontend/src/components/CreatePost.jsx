@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function CreatePost() {
   const [name, setName] = useState('');
@@ -84,6 +85,12 @@ function CreatePost() {
   return (
     <div className="flex flex-col items-center">
       <h2 className="font-bold text-2xl mb-8 text-white">Create New Post</h2>
+      <Link
+        to="/posts"
+        className="w-4/5 lg:w-1/2 text-white text-left mb-4 cursor-pointer hover:font-bold"
+      >
+        Back
+      </Link>
       <div className="w-4/5 lg:w-1/2">
         <form
           onSubmit={handleSubmit}
