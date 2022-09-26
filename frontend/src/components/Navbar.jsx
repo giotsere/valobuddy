@@ -5,7 +5,9 @@ function Navbar() {
   return (
     <nav className="h-28">
       <div className="flex h-full text-white justify-around p-4">
-        <p className="p-2 font-bold text-xl">Valobuddy</p>
+        <Link to="/" className="m-2 font-bold text-xl max-w-10 h-fit">
+          Valobuddy
+        </Link>
         <div>
           <ul className="flex">
             <Link
