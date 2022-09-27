@@ -8,8 +8,10 @@ router.get('/:id', posts_controller.post_details);
 
 router.post('/create', posts_controller.post_create);
 
-router.patch('/:id/update', posts_controller.post_update);
+router.get('/:id/edit', posts_controller.get_post_edit);
+router.post('/:id/edit', posts_controller.post_edit);
 
+router.get('/:id/delete', posts_controller.post_delete);
 router.post('/:id/delete', posts_controller.post_delete);
 
 module.exports = router;

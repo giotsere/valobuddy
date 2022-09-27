@@ -16,7 +16,7 @@ exports.post_details = async (req, res) => {
 
   const post = await Post.findById(id);
 
-  if (!workout) {
+  if (!post) {
     return res.status(404).json({ error: 'Post does not exist.' });
   }
 
@@ -83,14 +83,30 @@ exports.post_delete = async (req, res) => {
   res.status(200).json(post);
 };
 
-exports.post_update = async (req, res) => {
+exports.get_post_edit = async (req, res) => {
+  const post = Post.findById(req.params.id, function (err, post) {
+    if (err) {
+      return res.status(404).json({ error: err });
+    }
+  });
+
+  if (post == null) {
+    let err = new Error('Post not found');
+    err.status = 404;
+    return res.status(404).json({ error: err });
+  }
+
+  return res.status(200).json({ 1: 1 });
+};
+
+exports.post_edit = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: 'Post does not exist.' });
   }
 
-  const post = await POst.findOneAndUpdate({ _id: id }, { ...req.body });
+  const post = await Post.findOneAndUpdate({ _id: id }, { ...req.body });
 
   if (!post) {
     return res.status(200).json({ error: 'Post does not exist.' });

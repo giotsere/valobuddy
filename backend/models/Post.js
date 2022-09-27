@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const postSchema = new Schema(
+const PostSchema = new Schema(
   {
     name: { type: String, required: true },
     rank: {
@@ -88,7 +88,7 @@ const postSchema = new Schema(
       enum: [
         'Iron 1',
         'Iron 2',
-        'Iron 2',
+        'Iron 3',
         'Silver 1',
         'Silver 2',
         'Silver 3',
@@ -132,8 +132,11 @@ const postSchema = new Schema(
   { timestamps: true }
 );
 
-postSchema.virtual('url').get(function () {
-  return '/posts/' + this._id;
+PostSchema.set('toObject', { virtuals: true });
+PostSchema.set('toJSON', { virtuals: true });
+
+PostSchema.virtual('url').get(function () {
+  return '/api/posts/' + this._id;
 });
 
-module.exports = mongoose.model('Post', postSchema);
+module.exports = mongoose.model('Post', PostSchema);
