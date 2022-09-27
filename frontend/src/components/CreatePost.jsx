@@ -155,12 +155,14 @@ function CreatePost() {
           <h2 className="font-bold text-2xl mb-8 text-white">
             Update New Post
           </h2>
-          <Link
-            to="/posts"
-            className="w-4/5 lg:w-1/2 text-white text-left mb-4 cursor-pointer hover:font-bold"
-          >
-            Back
-          </Link>
+          <div className="w-4/5 lg:w-1/2 mb-6">
+            <Link
+              to="/posts"
+              className="text-white text-left mb-4 cursor-pointer hover:font-bold"
+            >
+              Back
+            </Link>
+          </div>
           <div className="w-4/5 lg:w-1/2">
             <h2 className="text-2xl font-bold text-red-500 ">
               404. {fetchingError}
@@ -173,12 +175,14 @@ function CreatePost() {
           <h2 className="font-bold text-2xl mb-8 text-white">
             {editing ? 'Update Post' : 'Create New Post'}
           </h2>
-          <Link
-            to="/posts"
-            className="w-4/5 lg:w-1/2 text-white text-left mb-4 cursor-pointer hover:font-bold"
-          >
-            Back
-          </Link>
+          <div className="w-4/5 lg:w-1/2 mb-6">
+            <Link
+              to="/posts"
+              className="text-white text-left mb-4 cursor-pointer hover:font-bold"
+            >
+              Back
+            </Link>
+          </div>
           <div className="w-4/5 lg:w-1/2">
             <form
               onSubmit={handleSubmit}

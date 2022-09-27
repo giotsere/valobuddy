@@ -67,6 +67,10 @@ exports.post_create = [
   },
 ];
 
+exports.get_post_delete = async (req, res) => {
+  const { id } = req.params;
+};
+
 exports.post_delete = async (req, res) => {
   const { id } = req.params;
 
@@ -81,22 +85,6 @@ exports.post_delete = async (req, res) => {
   }
 
   res.status(200).json(post);
-};
-
-exports.get_post_edit = async (req, res) => {
-  const post = Post.findById(req.params.id, function (err, post) {
-    if (err) {
-      return res.status(404).json({ error: err });
-    }
-  });
-
-  if (post == null) {
-    let err = new Error('Post not found');
-    err.status = 404;
-    return res.status(404).json({ error: err });
-  }
-
-  return res.status(200).json({ 1: 1 });
 };
 
 exports.post_edit = async (req, res) => {

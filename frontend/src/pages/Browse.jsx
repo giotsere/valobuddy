@@ -42,7 +42,7 @@ function Browse() {
         {' '}
         {loading && <div>Fetching data...</div>}
         {error && <div>Error: Couldn't fetch data...</div>}
-        {posts && posts.map((post) => <Post key={post._id} post={post} />)}
+        {posts && posts.map((post) => <Post key={post._id} postRef={post} />)}
       </section>
     </main>
   );
