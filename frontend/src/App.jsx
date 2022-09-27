@@ -14,6 +14,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/posts" element={<Browse />} />
             <Route path="/create" element={<CreatePost />} />
+            <Route path="/api/posts/:id/edit" element={<CreatePost />} />
           </Routes>
         </div>
       </BrowserRouter>

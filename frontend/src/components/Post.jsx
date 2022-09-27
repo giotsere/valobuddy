@@ -1,8 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Post({ post }) {
   return (
-    <div className="p-4 mb-6 bg-slate-800 w-80 grow text-white rounded h-fit">
+    <div
+      className="p-4 mb-6 bg-slate-800 w-80 grow text-white rounded h-fit"
+      id={post.url}
+    >
       <p className="font-bold mb-6 underline underline-offset-4 text-xl">
         {post.name}
       </p>
@@ -89,12 +93,26 @@ function Post({ post }) {
         {post.riot != '' ? (
           <>
             {' '}
-            <p>
+            <p className="mb-4">
               <span className="font-bold">Riot: </span>
               {post.riot}
             </p>
           </>
         ) : null}
+      </div>
+      <div className="flex justify-between">
+        <Link
+          className="mr-6 py-2 px-6 font-bold text-slate-900 bg-white rounded border-2 border-transparent cursor-pointer hover:bg-slate-900 hover:text-white hover:border-white"
+          to={`${post.url}/edit`}
+        >
+          Edit
+        </Link>
+        <Link
+          className="py-2 px-6 font-bold text-white bg-red-600 rounded border-2 border-transparent cursor-pointer hover:bg-red-800"
+          to={`${post.url}/delete`}
+        >
+          Delete
+        </Link>
       </div>
     </div>
   );
