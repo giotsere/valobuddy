@@ -67,10 +67,6 @@ exports.post_create = [
   },
 ];
 
-exports.get_post_delete = async (req, res) => {
-  const { id } = req.params;
-};
-
 exports.post_delete = async (req, res) => {
   const { id } = req.params;
 

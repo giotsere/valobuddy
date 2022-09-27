@@ -7,7 +7,7 @@ import DeletePost from './components/DeletePost';
 
 function App() {
   return (
-    <div className="App bg-slate-900 h-screen">
+    <div className="App bg-slate-900 h-max">
       <BrowserRouter>
         <Navbar />
         <div className="pages">

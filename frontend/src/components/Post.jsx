@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
-function Post({ postRef }) {
+function Post({ postRef, deleting }) {
   const navigate = useNavigate();
   const [post, setPost] = useState(postRef);
 
@@ -9,7 +9,7 @@ function Post({ postRef }) {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await fetch(`http://localhost:3000/api/posts/${id}`);
+      const res = await fetch(`http://localhost:3000/api/posts/${id}/delete`);
       const data = await res.json();
 
       if (res.ok) {
@@ -25,7 +25,7 @@ function Post({ postRef }) {
   return (
     <>
       {post && (
-        <div className="p-4 mb-6 bg-slate-800 w-80 grow text-white rounded h-fit hover:bg-slate-700 cursor-pointer z-0">
+        <div className="p-4 mb-12 bg-slate-800 w-80 grow text-white rounded h-fit hover:bg-slate-700 cursor-pointer z-0">
           <p className="font-bold mb-6 underline underline-offset-4 text-xl">
             {post.name}
           </p>
@@ -120,18 +120,25 @@ function Post({ postRef }) {
             ) : null}
           </div>
           <div className="flex justify-between">
-            <Link
-              className="mr-6 py-2 px-6 font-bold text-slate-900 bg-white rounded border-2 border-transparent cursor-pointer hover:bg-slate-900 hover:text-white hover:border-white"
-              to={`${post.url}/edit`}
-            >
-              Edit
-            </Link>
-            <Link
-              className="py-2 px-6 font-bold text-white bg-red-600 rounded border-2 border-transparent cursor-pointer hover:bg-red-800 hover:border-white z-10"
-              to={`${post.url}/delete`}
-            >
-              Delete
-            </Link>
+            {deleting ? (
+              ''
+            ) : (
+              <>
+                {' '}
+                <Link
+                  className="mr-6 py-2 px-6 font-bold text-slate-900 bg-white rounded border-2 border-transparent cursor-pointer hover:bg-slate-900 hover:text-white hover:border-white"
+                  to={`${post.url}/edit`}
+                >
+                  Edit
+                </Link>
+                <Link
+                  className="py-2 px-6 font-bold text-white bg-red-600 rounded border-2 border-transparent cursor-pointer hover:bg-red-800 hover:border-white z-10"
+                  to={`${post.url}/delete`}
+                >
+                  Delete
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}
