@@ -10,9 +10,12 @@ function DeletePost() {
 
   const handleDelete = async () => {
     setLoading(true);
-    const res = await fetch(`http://localhost:3000/api/posts/${id}/delete`, {
-      method: 'POST',
-    });
+    const res = await fetch(
+      `${import.meta.env.VITe_API_URL}/api/posts/${id}/delete`,
+      {
+        method: 'POST',
+      }
+    );
 
     const data = await res.json();
 

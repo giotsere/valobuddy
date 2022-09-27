@@ -71,13 +71,16 @@ function CreatePost() {
   const addPost = async (post) => {
     let res;
     if (id) {
-      res = await fetch(`http://localhost:3000/api/posts/${id}/edit`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(post),
-      });
+      res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/posts/${id}/edit`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(post),
+        }
+      );
     } else {
-      res = await fetch('http://localhost:3000/api/posts/create', {
+      res = await fetch(`${import.meta.env.VITE_API_URL}/api/posts/create`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(post),
