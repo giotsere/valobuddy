@@ -4,6 +4,46 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 function CreatePost() {
   const navigate = useNavigate();
   let { id } = useParams();
+  const ranks = [
+    'Iron 1',
+    'Iron 2',
+    'Iron 2',
+    'Silver 1',
+    'Silver 2',
+    'Silver 3',
+    'Gold 1',
+    'Gold 2',
+    'Gold 3',
+    'Platinum 1',
+    'Platinum 2',
+    'Platinum 3',
+    'Diamond 1',
+    'Diamond 2',
+    'Diamond 3',
+    'Ascendant 1',
+    'Ascendant 2',
+    'Ascendant 3',
+    'Immortal 1',
+    'Immortal 2',
+    'Immortal 3',
+    'Radiant',
+  ];
+
+  const regions = [
+    'NA',
+    'EU',
+    'TR',
+    'MENA',
+    'CIS',
+    'KR',
+    'JP',
+    'OCE',
+    'SEA',
+    'LATAM',
+    'BR',
+  ];
+
+  const rolesArr = ['Sentinel', 'Controller', 'Initiator', 'Duelist'];
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -215,28 +255,9 @@ function CreatePost() {
                     setRank(e.target.value);
                   }}
                 >
-                  <option value="Iron 1">Iron 1</option>
-                  <option value="Iron 2">Iron 2</option>
-                  <option value="Iron 3">Iron 3</option>
-                  <option value="Silver 1">Silver 1</option>
-                  <option value="Silver 2">Silver 2</option>
-                  <option value="Silver 3">Silver 3</option>
-                  <option value="Gold 1">Gold 1</option>
-                  <option value="Gold 2">Gold 2</option>
-                  <option value="Gold 3">Gold 3</option>
-                  <option value="Platinum 1">Platinum 1</option>
-                  <option value="Platinum 2">Platinum 2</option>
-                  <option value="Platinum 3">Platinum 3</option>
-                  <option value="Diamond 1">Diamond 1</option>
-                  <option value="Diamond 2">Diamond 2</option>
-                  <option value="Diamond 3">Diamond 3</option>
-                  <option value="Ascendant 1">Ascendant 1</option>
-                  <option value="Ascendant 2">Ascendant 2</option>
-                  <option value="Ascendant 3">Ascendant 3</option>
-                  <option value="Immortal 1">Immortal 1</option>
-                  <option value="Immortal 2">Immortal 2</option>
-                  <option value="Immortal 3">Immortal 3</option>
-                  <option value="Radiant">Radiant</option>
+                  {ranks.map((rank) => {
+                    return <option value={rank}>{rank}</option>;
+                  })}
                 </select>
               </div>
 
@@ -252,17 +273,9 @@ function CreatePost() {
                       setRegion(e.target.value);
                     }}
                   >
-                    <option value="NA">NA</option>
-                    <option value="EU">EU</option>
-                    <option value="TR">TR</option>
-                    <option value="MENA">MENA</option>
-                    <option value="CIS">CIS</option>
-                    <option value="KR">KR</option>
-                    <option value="JP">JP</option>
-                    <option value="OCE">OCE</option>
-                    <option value="SEA">SEA</option>
-                    <option value="LATAM">LATAM</option>
-                    <option value="BR">BR</option>
+                    {regions.map((region) => {
+                      return <option value={region}>{region}</option>;
+                    })}
                   </select>
                 </div>
 
@@ -284,54 +297,25 @@ function CreatePost() {
               </div>
 
               <div className="mb-4">
-                <label className="font-bold">Roles:</label>
-              </div>
-              <div className="mb-4">
-                <label className="pr-4">Sentinel</label>
-                <input
-                  className="cursor-pointer"
-                  type="checkbox"
-                  name="sentinel"
-                  id=""
-                  value="Sentinel"
-                  onChange={(e) => {
-                    handleCheckbox(e);
-                  }}
-                />
-                <label className="pl-4 pr-2">Controller</label>
-                <input
-                  className="cursor-pointer"
-                  type="checkbox"
-                  name="controller"
-                  id=""
-                  value="Controller"
-                  onChange={(e) => {
-                    handleCheckbox(e);
-                  }}
-                />
-                <label className="pl-4 pr-2">Initiator</label>
-                <input
-                  className="cursor-pointer"
-                  type="checkbox"
-                  name="initiator"
-                  id=""
-                  value="Initiator"
-                  onChange={(e) => {
-                    handleCheckbox(e);
-                  }}
-                />
-                <label className="pl-4 pr-2">Duelist</label>
-                <input
-                  className="cursor-pointer"
-                  type="checkbox"
-                  name="duelist"
-                  id=""
-                  value="Duelist"
-                  placeholder="Duelist"
-                  onChange={(e) => {
-                    handleCheckbox(e);
-                  }}
-                />
+                {rolesArr.map((role) => {
+                  return (
+                    <>
+                      {' '}
+                      <label className="pr-2">{role}</label>
+                      <input
+                        className="cursor-pointer mr-4"
+                        type="checkbox"
+                        name={role}
+                        id=""
+                        value={role}
+                        placeholder={role}
+                        onChange={(e) => {
+                          handleCheckbox(e);
+                        }}
+                      />
+                    </>
+                  );
+                })}
               </div>
 
               <div>
@@ -367,28 +351,9 @@ function CreatePost() {
                     setLookingFrom(e.target.value);
                   }}
                 >
-                  <option value="Iron 1">Iron 1</option>
-                  <option value="Iron 2">Iron 2</option>
-                  <option value="Iron 3">Iron 3</option>
-                  <option value="Silver 1">Silver 1</option>
-                  <option value="Silver 2">Silver 2</option>
-                  <option value="Silver 3">Silver 3</option>
-                  <option value="Gold 1">Gold 1</option>
-                  <option value="Gold 2">Gold 2</option>
-                  <option value="Gold 3">Gold 3</option>
-                  <option value="Platinum 1">Platinum 1</option>
-                  <option value="Platinum 2">Platinum 2</option>
-                  <option value="Platinum 3">Platinum 3</option>
-                  <option value="Diamond 1">Diamond 1</option>
-                  <option value="Diamond 2">Diamond 2</option>
-                  <option value="Diamond 3">Diamond 3</option>
-                  <option value="Ascendant 1">Ascendant 1</option>
-                  <option value="Ascendant 2">Ascendant 2</option>
-                  <option value="Ascendant 3">Ascendant 3</option>
-                  <option value="Immortal 1">Immortal 1</option>
-                  <option value="Immortal 2">Immortal 2</option>
-                  <option value="Immortal 3">Immortal 3</option>
-                  <option value="Radiant">Radiant</option>
+                  {ranks.map((rank) => {
+                    return <option value={rank}>{rank}</option>;
+                  })}
                 </select>
               </div>
 
@@ -403,28 +368,9 @@ function CreatePost() {
                     setLooknigTo(e.target.value);
                   }}
                 >
-                  <option value="Iron 1">Iron 1</option>
-                  <option value="Iron 2">Iron 2</option>
-                  <option value="Iron 3">Iron 3</option>
-                  <option value="Silver 1">Silver 1</option>
-                  <option value="Silver 2">Silver 2</option>
-                  <option value="Silver 3">Silver 3</option>
-                  <option value="Gold 1">Gold 1</option>
-                  <option value="Gold 2">Gold 2</option>
-                  <option value="Gold 3">Gold 3</option>
-                  <option value="Platinum 1">Platinum 1</option>
-                  <option value="Platinum 2">Platinum 2</option>
-                  <option value="Platinum 3">Platinum 3</option>
-                  <option value="Diamond 1">Diamond 1</option>
-                  <option value="Diamond 2">Diamond 2</option>
-                  <option value="Diamond 3">Diamond 3</option>
-                  <option value="Ascendant 1">Ascendant 1</option>
-                  <option value="Ascendant 2">Ascendant 2</option>
-                  <option value="Ascendant 3">Ascendant 3</option>
-                  <option value="Immortal 1">Immortal 1</option>
-                  <option value="Immortal 2">Immortal 2</option>
-                  <option value="Immortal 3">Immortal 3</option>
-                  <option value="Radiant">Radiant</option>
+                  {ranks.map((rank) => {
+                    return <option value={rank}>{rank}</option>;
+                  })}
                 </select>
               </div>
 
@@ -440,17 +386,9 @@ function CreatePost() {
                     setLookingRegion(e.target.value);
                   }}
                 >
-                  <option value="NA">NA</option>
-                  <option value="EU">EU</option>
-                  <option value="TR">TR</option>
-                  <option value="MENA">MENA</option>
-                  <option value="CIS">CIS</option>
-                  <option value="KR">KR</option>
-                  <option value="JP">JP</option>
-                  <option value="OCE">OCE</option>
-                  <option value="SEA">SEA</option>
-                  <option value="LATAM">LATAM</option>
-                  <option value="BR">BR</option>
+                  {regions.map((region) => {
+                    return <option value={region}>{region}</option>;
+                  })}
                 </select>
               </div>
 
