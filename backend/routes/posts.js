@@ -6,6 +6,8 @@ router.get('/', posts_controller.posts_get);
 
 router.post('/create', posts_controller.post_create);
 
+router.get('/:id', posts_controller.post_details);
+
 router.get('/:id/edit', posts_controller.post_details);
 router.post('/:id/edit', posts_controller.post_edit);
 

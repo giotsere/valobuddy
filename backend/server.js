@@ -28,4 +28,4 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/api/profile', usersRouter);
 app.use('/api/posts', postsRouter);
-app.use('/register', registrationRouter);
+app.use('/', registrationRouter);
