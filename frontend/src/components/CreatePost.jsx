@@ -1,49 +1,60 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import formReducer from '../reducers/formReducer';
+import {
+  ranks,
+  regions,
+  rolesArr,
+  initialFormState,
+} from '../utils/createPostVariables';
 
 function CreatePost() {
   const navigate = useNavigate();
   let { id } = useParams();
-  const ranks = [
-    'Iron 1',
-    'Iron 2',
-    'Iron 2',
-    'Silver 1',
-    'Silver 2',
-    'Silver 3',
-    'Gold 1',
-    'Gold 2',
-    'Gold 3',
-    'Platinum 1',
-    'Platinum 2',
-    'Platinum 3',
-    'Diamond 1',
-    'Diamond 2',
-    'Diamond 3',
-    'Ascendant 1',
-    'Ascendant 2',
-    'Ascendant 3',
-    'Immortal 1',
-    'Immortal 2',
-    'Immortal 3',
-    'Radiant',
-  ];
 
-  const regions = [
-    'NA',
-    'EU',
-    'TR',
-    'MENA',
-    'CIS',
-    'KR',
-    'JP',
-    'OCE',
-    'SEA',
-    'LATAM',
-    'BR',
-  ];
+  let [formState, dispatch] = useReducer(formReducer, initialFormState);
 
-  const rolesArr = ['Sentinel', 'Controller', 'Initiator', 'Duelist'];
+  const handleTextChange = (e) => {
+    dispatch({
+      type: 'HANDLE INPUT',
+      name: e.target.name,
+      payload: e.target.value,
+    });
+  };
+
+  const handleFetch = (name, text) => {
+    dispatch({
+      type: 'HANDLE FETCH',
+      name: name,
+      payload: text,
+    });
+  };
+
+  const handleCheckbox = (e) => {
+    const checkedState = e.target.checked;
+    const checkedValue = e.target.value;
+
+    if (checkedState) {
+      dispatch({
+        type: 'HANDLE CHECKBOX ADD',
+        payload: checkedValue,
+      });
+    }
+
+    if (!checkedState) {
+      dispatch({
+        type: 'HANDLE CHECKBOX REMOVE',
+        payload: checkedValue,
+      });
+    }
+  };
+
+  const handleFormReset = () => {
+    dispatch({
+      type: 'HANDLE FORM RESET',
+      payload: initialFormState,
+    });
+  };
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -52,23 +63,21 @@ function CreatePost() {
 
       if (!res.ok) {
         setFetchingError(data.error);
-        setLoadingFetching(false);
         setEditing(false);
       }
 
       if (res.ok) {
-        setName(data.name);
-        setRank(data.rank);
-        setRegion(data.region);
-        setRoles(data.roles);
-        setMicrophone(data.microphone);
-        setDescription(data.description);
-        setLookingFrom(data.lookingFrom);
-        setLookingTo(data.lookingTo);
-        setLookingRegion(data.lookingRegion);
-        setDiscord(data.discord);
-        setRiot(data.riot);
-        setLoadingFetching(false);
+        handleFetch('name', data.name);
+        handleFetch('rank', data.rank);
+        handleFetch('region', data.region);
+        handleFetch('roles', data.roles);
+        handleFetch('microphone', data.microphone);
+        handleFetch('description', data.description);
+        handleFetch('lookingFrom', data.lookingFrom);
+        handleFetch('lookingTo', data.lookingTo);
+        handleFetch('lookingRegion', data.lookingRegion);
+        handleFetch('discord', data.discord);
+        handleFetch('riot', data.riot);
         setFetchingError(false);
         setEditing(true);
 
@@ -84,29 +93,24 @@ function CreatePost() {
 
     if (id) {
       fetchPosts();
-    } else {
-      setLoadingFetching(false);
     }
   }, []);
 
-  const [name, setName] = useState('');
-  const [rank, setRank] = useState('Iron 1');
-  const [region, setRegion] = useState('NA');
-  const [microphone, setMicrophone] = useState('No');
-  const [roles, setRoles] = useState([]);
-  const [description, setDescription] = useState('');
-  const [lookingFrom, setLookingFrom] = useState('Iron 1');
-  const [lookingTo, setLookingTo] = useState('Iron 1');
-  const [lookingRegion, setLookingRegion] = useState('NA');
-  const [discord, setDiscord] = useState('');
-  const [riot, setRiot] = useState('');
   const [fetchingError, setFetchingError] = useState(false);
-  const [loadingFetching, setLoadingFetching] = useState(true);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [editing, setEditing] = useState(false);
   const [wasEditing, setWasEditing] = useState(false);
+
+  const handleSubmit = (e) => {
+    setError(null);
+    setLoading(true);
+    e.preventDefault();
+    let newPost = { ...formState };
+
+    addPost(newPost);
+  };
 
   const addPost = async (post) => {
     let res;
@@ -137,10 +141,7 @@ function CreatePost() {
     }
 
     if (res.ok) {
-      setName('');
-      setDescription('');
-      setMicrophone('No');
-      setRoles([]);
+      handleFormReset();
       setError(null);
       setLoading(false);
       setSuccess(data);
@@ -153,40 +154,6 @@ function CreatePost() {
       document
         .querySelectorAll('input[type=checkbox')
         .forEach((el) => (el.checked = false));
-    }
-  };
-
-  const handleSubmit = (e) => {
-    setError(null);
-    setLoading(true);
-    e.preventDefault();
-    let newPost = {
-      name,
-      rank,
-      region,
-      microphone,
-      roles,
-      description,
-      lookingFrom,
-      lookingTo,
-      lookingRegion,
-      discord,
-      riot,
-    };
-
-    addPost(newPost);
-  };
-
-  const handleCheckbox = (e) => {
-    const checkedState = e.target.checked;
-    const checkedValue = e.target.value;
-
-    if (checkedState) {
-      setRoles((prev) => [...prev, checkedValue]);
-    }
-
-    if (!checkedState) {
-      setRoles(roles.filter((role) => role !== checkedValue));
     }
   };
 
@@ -237,8 +204,8 @@ function CreatePost() {
                   className="p-2 border-solid border border-gray-500 rounded pl-2"
                   type="text"
                   name="name"
-                  onChange={(e) => setName(e.target.value)}
-                  value={name}
+                  onChange={(e) => handleTextChange(e)}
+                  value={formState.name}
                   required="true"
                   placeholder="Username"
                 />
@@ -251,9 +218,7 @@ function CreatePost() {
                   name="rank"
                   id=""
                   type="select"
-                  onChange={(e) => {
-                    setRank(e.target.value);
-                  }}
+                  onChange={(e) => handleTextChange(e)}
                 >
                   {ranks.map((rank) => {
                     return <option value={rank}>{rank}</option>;
@@ -269,9 +234,7 @@ function CreatePost() {
                     name="region"
                     id=""
                     type="select"
-                    onChange={(e) => {
-                      setRegion(e.target.value);
-                    }}
+                    onChange={(e) => handleTextChange(e)}
                   >
                     {regions.map((region) => {
                       return <option value={region}>{region}</option>;
@@ -286,9 +249,7 @@ function CreatePost() {
                     name="microphone"
                     id=""
                     type="select"
-                    onChange={(e) => {
-                      setMicrophone(e.target.value);
-                    }}
+                    onChange={(e) => handleTextChange(e)}
                   >
                     <option value="No">No</option>
                     <option value="Yes">Yes</option>
@@ -309,9 +270,7 @@ function CreatePost() {
                         id=""
                         value={role}
                         placeholder={role}
-                        onChange={(e) => {
-                          handleCheckbox(e);
-                        }}
+                        onChange={(e) => handleCheckbox(e)}
                       />
                     </>
                   );
@@ -331,8 +290,8 @@ function CreatePost() {
                     rows="10"
                     placeholder="About you"
                     type="textarea"
-                    onChange={(e) => setDescription(e.target.value)}
-                    value={description}
+                    onChange={(e) => handleTextChange(e)}
+                    value={formState.description}
                     required="true"
                   ></textarea>
                 </div>
@@ -347,9 +306,7 @@ function CreatePost() {
                   name="lookingFrom"
                   id=""
                   type="select"
-                  onChange={(e) => {
-                    setLookingFrom(e.target.value);
-                  }}
+                  onChange={(e) => handleTextChange(e)}
                 >
                   {ranks.map((rank) => {
                     return <option value={rank}>{rank}</option>;
@@ -364,9 +321,7 @@ function CreatePost() {
                   name="lookingTo"
                   id=""
                   type="select"
-                  onChange={(e) => {
-                    setLooknigTo(e.target.value);
-                  }}
+                  onChange={(e) => handleTextChange(e)}
                 >
                   {ranks.map((rank) => {
                     return <option value={rank}>{rank}</option>;
@@ -382,9 +337,7 @@ function CreatePost() {
                   id=""
                   type="select"
                   placehold="select region"
-                  onChange={(e) => {
-                    setLookingRegion(e.target.value);
-                  }}
+                  onChange={(e) => handleTextChange(e)}
                 >
                   {regions.map((region) => {
                     return <option value={region}>{region}</option>;
@@ -398,8 +351,8 @@ function CreatePost() {
                   className="p-2 border-solid border border-gray-500 rounded pl-2"
                   type="text"
                   name="discord"
-                  onChange={(e) => setDiscord(e.target.value)}
-                  value={discord}
+                  onChange={(e) => handleTextChange(e)}
+                  value={formState.discord}
                   placeholder="Discord Username"
                 />
               </div>
@@ -409,8 +362,8 @@ function CreatePost() {
                   className="p-2 border-solid border border-gray-500 rounded pl-2"
                   type="text"
                   name="riot"
-                  onChange={(e) => setRiot(e.target.value)}
-                  value={riot}
+                  onChange={(e) => handleTextChange(e)}
+                  value={formState.riot}
                   placeholder="Riot Username"
                 />
               </div>
