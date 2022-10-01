@@ -83,18 +83,53 @@ exports.post_delete = async (req, res) => {
   res.status(200).json(post);
 };
 
-exports.post_edit = async (req, res) => {
-  const { id } = req.params;
+exports.post_edit = [
+  (req, res, next) => {
+    if (!Array.isArray(req.body.roles)) {
+      req.body.roles =
+        typeof req.body.genre === 'undefined' ? [] : [req.body.genre];
+    }
+    next();
+  },
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: 'Post does not exist.' });
-  }
+  body('name', 'Name must not be empty').trim().isLength({ min: 1 }).escape(),
+  body('rank').escape(),
+  body('region').escape(),
+  body('roles.*').escape(),
+  body('description', 'Description must not be empty.')
+    .trim()
+    .isLength({ max: 300 })
+    .withMessage('must contain a number')
+    .escape()
+    .withMessage('Description must not be empty'),
+  body('lookingFrom').escape(),
+  body('lookingTo').escape(),
+  body('lookingRegion').escape(),
+  body('discord').trim().optional({ checkFalsy: true }).escape(),
+  body('riot').trim().optional({ checkFalsy: true }).escape(),
 
-  const post = await Post.findOneAndUpdate({ _id: id }, { ...req.body });
+  (req, res) => {
+    console.log(2);
+    const errors = validationResult(req);
 
-  if (!post) {
-    return res.status(200).json({ error: 'Post does not exist.' });
-  }
+    if (!errors.isEmpty()) {
+      return res.status(404).json({ error: errors.array() });
+    }
 
-  res.status(200).json(post);
-};
+    const { id } = req.params;
+
+    const post = new Post({ ...req.body, _id: id });
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).json({ error: 'Post does not exist.' });
+    }
+
+    Post.findByIdAndUpdate(id, post, {}, (err, postRes) => {
+      if (err) {
+        return res.status(400).json({ error: err });
+      }
+
+      res.status(200).json(postRes);
+    });
+  },
+];
