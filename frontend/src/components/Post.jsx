@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 function Post({ postRef, deleting }) {
-  const navigate = useNavigate();
   const [post, setPost] = useState(postRef);
 
   let { id } = useParams();
@@ -28,9 +27,14 @@ function Post({ postRef, deleting }) {
     <>
       {post && (
         <div className="p-4 mb-12 bg-slate-800 w-80 grow text-white rounded h-fit hover:bg-slate-700 cursor-pointer z-0">
-          <p className="font-bold mb-6 underline underline-offset-4 text-xl">
-            {post.name}
-          </p>
+          <div className="flex">
+            <img
+              src="vb.png"
+              alt="profile picture"
+              className="mr-8 mb-8 p-4 bg-rose-600 rounded"
+            />
+            <p className="mb-6 font-bold text-lg">{post.name}</p>
+          </div>
           <div className="mb-4 break-words">
             <span className="font-bold">About:</span>
             <p className="text-slate-400">{post.description}</p>
