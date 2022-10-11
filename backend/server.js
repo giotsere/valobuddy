@@ -1,12 +1,18 @@
 require('dotenv').config();
 const express = require('express');
+const session = require('express-session');
 const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo');
 const mongoDB = process.env.MONGODB;
-const cors = require('cors');
+const sessionSecret = process.env.SECRET;
 const port = process.env.PORT;
+const cors = require('cors');
 
 mongoose
-  .connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(mongoDB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     app.listen(port, () => {
       console.log(`Listening to port ${port}`);
@@ -24,7 +30,29 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
+app.set('trust proxy', 1);
+app.use(
+  session({
+    secret: sessionSecret,
+    resave: false,
+    saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: mongoDB,
+      collectionName: 'sessions',
+    }),
+    cookie: {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 3,
+      sameSite: 'none',
+    },
+  })
+);
+
+app.use((req, res, next) => {
+  console.log(req.session);
+  next();
+});
 
 app.use('/api/profile', usersRouter);
 app.use('/api/posts', postsRouter);

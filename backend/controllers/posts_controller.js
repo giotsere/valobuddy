@@ -5,6 +5,12 @@ const { body, validationResult } = require('express-validator');
 exports.posts_get = async (req, res) => {
   const posts = await Post.find({});
 
+  if (req.session.viewCount) {
+    req.session.viewCount = req.session.viewCount + 1;
+  } else {
+    req.session.viewCount = 1;
+  }
+
   res.status(200).json(posts);
 };
 
