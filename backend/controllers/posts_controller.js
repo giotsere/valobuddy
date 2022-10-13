@@ -20,11 +20,18 @@ exports.posts_get = async (req, res) => {
 
 exports.post_details = async (req, res) => {
   const { id } = req.params;
+
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: 'Post does not exist.' });
   }
 
   const post = await Post.findById(id);
+
+  if (req.session.viewCount) {
+    req.session.viewCount = req.session.viewCount + 1;
+  } else {
+    req.session.viewCount = 1;
+  }
 
   if (!post) {
     return res.status(404).json({ error: 'Post does not exist.' });
@@ -59,6 +66,12 @@ exports.post_create = [
   body('riot').trim().optional({ checkFalsy: true }).escape(),
 
   (req, res, next) => {
+    if (req.session.viewCount) {
+      req.session.viewCount = req.session.viewCount + 1;
+    } else {
+      req.session.viewCount = 1;
+    }
+
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -79,6 +92,12 @@ exports.post_create = [
 
 exports.post_delete = async (req, res) => {
   const { id } = req.params;
+
+  if (req.session.viewCount) {
+    req.session.viewCount = req.session.viewCount + 1;
+  } else {
+    req.session.viewCount = 1;
+  }
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: 'Post does not exist.' });
@@ -119,7 +138,12 @@ exports.post_edit = [
   body('riot').trim().optional({ checkFalsy: true }).escape(),
 
   (req, res) => {
-    console.log(2);
+    if (req.session.viewCount) {
+      req.session.viewCount = req.session.viewCount + 1;
+    } else {
+      req.session.viewCount = 1;
+    }
+
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
