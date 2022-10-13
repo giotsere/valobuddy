@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const UserDetailSchema = new Schema({
+let UserDetailSchema = new Schema({
   userID: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   postID: { type: Schema.Types.ObjectId, ref: 'Post', required: false },
   avatar: { type: String, data: Buffer, required: false },
@@ -10,7 +10,7 @@ const UserDetailSchema = new Schema({
 });
 
 UserDetailSchema.virtual('url').get(function () {
-  return 'users/' + this._id;
+  return '/api/profiles/' + this._id;
 });
 
 module.exports = mongoose.model('UserDetail', UserDetailSchema);
