@@ -7,6 +7,7 @@ const mongoDB = process.env.MONGODB;
 const sessionSecret = process.env.SECRET;
 const port = process.env.PORT;
 const cors = require('cors');
+const passport = require('passport');
 
 mongoose
   .connect(mongoDB, {
@@ -49,6 +50,11 @@ app.use(
   })
 );
 
+require('./auth/passport');
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use((req, res, next) => {
   console.log(req.session);
   next();
@@ -56,4 +62,4 @@ app.use((req, res, next) => {
 
 app.use('/api/profile', usersRouter);
 app.use('/api/posts', postsRouter);
-app.use('/', registrationRouter);
+app.use('/api/registration', registrationRouter);
