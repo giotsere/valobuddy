@@ -9,7 +9,7 @@ const UserDetailSchema = new Schema({
   riot: { type: String, required: false },
 });
 
-UserSchema.virtual('url').get(function () {
+UserDetailSchema.virtual('url').get(function () {
   return 'users/' + this._id;
 });
 
