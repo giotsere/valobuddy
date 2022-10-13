@@ -115,16 +115,13 @@ function CreatePost() {
   const addPost = async (post) => {
     let res;
     if (id) {
-      res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/posts/${id}/edit`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(post),
-        }
-      );
+      res = await fetch(`/api/posts/${id}/edit`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(post),
+      });
     } else {
-      res = await fetch(`${import.meta.env.VITE_API_URL}/api/posts/create`, {
+      res = await fetch('/api/posts/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(post),
@@ -167,7 +164,7 @@ function CreatePost() {
           </h2>
           <div className="w-4/5 lg:w-1/2 mb-6">
             <Link
-              to="/posts"
+              to="/browse"
               className="text-white text-left mb-4 cursor-pointer hover:font-bold"
             >
               Back
@@ -187,7 +184,7 @@ function CreatePost() {
           </h2>
           <div className="w-4/5 lg:w-1/2 mb-6">
             <Link
-              to="/posts"
+              to="/browse"
               className="text-white text-left mb-4 cursor-pointer hover:font-bold"
             >
               Back
