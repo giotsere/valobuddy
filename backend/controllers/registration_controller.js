@@ -76,7 +76,7 @@ exports.signup_post = [
           return res.status(404).json({ error: err });
         }
 
-        res.status(200).json(userDetail);
+        res.status(200).json(userDetail.url);
       });
     });
   },
