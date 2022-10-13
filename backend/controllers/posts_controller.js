@@ -11,6 +11,10 @@ exports.posts_get = async (req, res) => {
     req.session.viewCount = 1;
   }
 
+  if (!posts) {
+    return res.status(404).json({ error: 'Error fetching posts.' });
+  }
+
   res.status(200).json(posts);
 };
 
