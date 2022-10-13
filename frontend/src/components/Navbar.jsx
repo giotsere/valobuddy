@@ -18,30 +18,22 @@ function Navbar() {
             </Link>
             <Link
               className="mr-8 p-2 cursor-pointer decoration-2  hover:underline hover:underline-offset-4"
-              to="posts"
+              to="browse"
             >
               Browse
             </Link>
             <Link
-              className="mr-8 p-2 cursor-pointer decoration-2 hover:underline hover:underline-offset-4"
-              to="about"
+              className="mr-2 p-2 font-bold cursor-pointer decoration-2 hover:underline hover:underline-offset-4"
+              to="/login"
             >
-              About
+              Log In
             </Link>
-            <ul className="flex ml-8">
-              <Link
-                className="mr-2 p-2 font-bold cursor-pointer decoration-2 hover:underline hover:underline-offset-4"
-                to="/login"
-              >
-                Log In
-              </Link>
-              <Link
-                className="mr-2 p-2 font-bold text-slate-900 bg-white rounded border-2 border-transparent cursor-pointer hover:bg-slate-900 hover:text-white hover:border-white"
-                to="/signup"
-              >
-                Sign Up
-              </Link>
-            </ul>
+            <Link
+              className="mr-2 p-2 font-bold text-slate-900 bg-white rounded border-2 border-transparent cursor-pointer hover:bg-slate-900 hover:text-white hover:border-white"
+              to="/signup"
+            >
+              Sign Up
+            </Link>
           </ul>
         </div>
       </div>
