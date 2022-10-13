@@ -80,7 +80,6 @@ function CreatePost() {
           riot: data.riot,
         };
 
-        console.log(post);
         handleFetch(post);
 
         setFetchingError(false);
@@ -136,7 +135,6 @@ function CreatePost() {
     const data = await res.json();
 
     if (!res.ok) {
-      console.log(data);
       setError(data.error);
       setLoading(false);
       setSuccess(false);

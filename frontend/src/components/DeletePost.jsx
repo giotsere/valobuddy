@@ -37,7 +37,7 @@ function DeletePost() {
           <h2 className="font-bold text-2xl mb-8 text-white">Delete Post</h2>
           <div className="w-4/5 lg:w-1/2 mb-12">
             <Link
-              to="/posts"
+              to="/browse"
               className="text-white text-left mb-4 cursor-pointer hover:font-bold"
             >
               Back

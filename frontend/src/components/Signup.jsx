@@ -30,7 +30,7 @@ function Signup() {
 
     if (res.ok) {
       setError(false);
-      return navigate(`${data.url}`);
+      return navigate(`${data}`);
     }
   };
 

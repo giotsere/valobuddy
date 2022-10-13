@@ -19,8 +19,8 @@ function App() {
             <Route path="/create" element={<CreatePost />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/api/posts/:id/edit" element={<CreatePost />} />
-            <Route path="/api/posts/:id/delete" element={<DeletePost />} />
+            <Route path="/:id/edit" element={<CreatePost />} />
+            <Route path="/:id/delete/" element={<DeletePost />} />
           </Routes>
         </div>
       </BrowserRouter>

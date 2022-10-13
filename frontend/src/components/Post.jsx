@@ -131,13 +131,13 @@ function Post({ postRef, deleting }) {
                 {' '}
                 <Link
                   className="mr-6 py-2 px-6 font-bold text-slate-900 bg-white rounded border-2 border-transparent cursor-pointer hover:bg-slate-900 hover:text-white hover:border-white"
-                  to={`${post.url}/edit`}
+                  to={`/${post.id}/edit`}
                 >
                   Edit
                 </Link>
                 <Link
                   className="py-2 px-6 font-bold text-white bg-red-600 rounded border-2 border-transparent cursor-pointer hover:bg-red-800 hover:border-white z-10"
-                  to={`${post.url}/delete`}
+                  to={`/${post.id}/delete`}
                 >
                   Delete
                 </Link>
