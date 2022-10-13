@@ -1,7 +1,8 @@
 const formReducer = (state, action) => {
   switch (action.type) {
-    case 'HANDLE INPUT':
     case 'HANDLE FETCH':
+      return { ...action.payload };
+    case 'HANDLE INPUT':
       return { ...state, [action.name]: action.payload };
     case 'HANDLE CHECKBOX ADD':
       return { ...state, roles: [...state.roles, action.payload] };

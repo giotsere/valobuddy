@@ -22,11 +22,10 @@ function CreatePost() {
     });
   };
 
-  const handleFetch = (name, text) => {
+  const handleFetch = (post) => {
     dispatch({
       type: 'HANDLE FETCH',
-      name: name,
-      payload: text,
+      payload: post,
     });
   };
 
@@ -67,17 +66,23 @@ function CreatePost() {
       }
 
       if (res.ok) {
-        handleFetch('name', data.name);
-        handleFetch('rank', data.rank);
-        handleFetch('region', data.region);
-        handleFetch('roles', data.roles);
-        handleFetch('microphone', data.microphone);
-        handleFetch('description', data.description);
-        handleFetch('lookingFrom', data.lookingFrom);
-        handleFetch('lookingTo', data.lookingTo);
-        handleFetch('lookingRegion', data.lookingRegion);
-        handleFetch('discord', data.discord);
-        handleFetch('riot', data.riot);
+        let post = {
+          name: data.name,
+          rank: data.rank,
+          region: data.region,
+          roles: data.roles,
+          microphone: data.microphone,
+          description: data.description,
+          lookingFrom: data.lookingFrom,
+          lookingTo: data.lookingTo,
+          lookingRegion: data.lookingRegion,
+          discord: data.discord,
+          riot: data.riot,
+        };
+
+        console.log(post);
+        handleFetch(post);
+
         setFetchingError(false);
         setEditing(true);
 
