@@ -5,6 +5,12 @@ const { body, validationResult } = require('express-validator');
 exports.posts_get = async (req, res) => {
   const posts = await Post.find({});
 
+  if (req.session.viewCount) {
+    req.session.viewCount = req.session.viewCount + 1;
+  } else {
+    req.session.viewCount = 1;
+  }
+
   if (!posts) {
     return res.status(404).json({ error: 'Error fetching posts.' });
   }
@@ -20,6 +26,12 @@ exports.post_details = async (req, res) => {
   }
 
   const post = await Post.findById(id);
+
+  if (req.session.viewCount) {
+    req.session.viewCount = req.session.viewCount + 1;
+  } else {
+    req.session.viewCount = 1;
+  }
 
   if (!post) {
     return res.status(404).json({ error: 'Post does not exist.' });
@@ -54,6 +66,12 @@ exports.post_create = [
   body('riot').trim().optional({ checkFalsy: true }).escape(),
 
   (req, res, next) => {
+    if (req.session.viewCount) {
+      req.session.viewCount = req.session.viewCount + 1;
+    } else {
+      req.session.viewCount = 1;
+    }
+
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -120,6 +138,12 @@ exports.post_edit = [
   body('riot').trim().optional({ checkFalsy: true }).escape(),
 
   (req, res) => {
+    if (req.session.viewCount) {
+      req.session.viewCount = req.session.viewCount + 1;
+    } else {
+      req.session.viewCount = 1;
+    }
+
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {

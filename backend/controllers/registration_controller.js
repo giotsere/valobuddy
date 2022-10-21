@@ -28,15 +28,6 @@ exports.login_post = [
   },
 ];
 
-exports.logout_post = (req, res, next) => {
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-    res.status(200).json({ msg: 'logged out' });
-  });
-};
-
 exports.signup_post = [
   body('username')
     .trim()

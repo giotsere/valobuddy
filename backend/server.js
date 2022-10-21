@@ -55,6 +55,11 @@ require('./auth/passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use((req, res, next) => {
+  console.log(req.session);
+  next();
+});
+
 app.use('/api/profile', usersRouter);
 app.use('/api/posts', postsRouter);
 app.use('/api/registration', registrationRouter);
