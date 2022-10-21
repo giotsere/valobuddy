@@ -28,6 +28,15 @@ exports.login_post = [
   },
 ];
 
+exports.logout_post = (req, res, next) => {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.status(200).json({ msg: 'logged out' });
+  });
+};
+
 exports.signup_post = [
   body('username')
     .trim()
@@ -76,7 +85,7 @@ exports.signup_post = [
           return res.status(404).json({ error: err });
         }
 
-        res.status(200).json(userDetail.url);
+        res.status(200).json(userDetail);
       });
     });
   },
