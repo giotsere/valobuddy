@@ -2,7 +2,6 @@ const User = require('../models/User');
 const UserDetail = require('../models/UserDetail');
 const genPassword = require('../auth/passwordUtils').genPassword;
 const { body, validationResult } = require('express-validator');
-const passport = require('passport');
 
 exports.login_post = [
   body('username')
@@ -16,14 +15,12 @@ exports.login_post = [
     .escape()
     .withMessage('Password required'),
   (req, res) => {
+    const errors = validationResult(req);
+
     if (!errors.isEmpty()) {
       return res.status(404).json({ error: errors.array() });
     } else {
-      passport.authenticate('login', {
-        successRedirect: '/browse',
-        failureRedirect: '/login',
-        failureFlash: true,
-      })(req, res);
+      res.status(200).json({ msg: 'logged in' });
     }
   },
 ];
