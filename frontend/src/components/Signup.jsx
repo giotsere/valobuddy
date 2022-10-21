@@ -8,6 +8,7 @@ function Signup() {
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [error, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleSubmit = async () => {
     const credentials = {
@@ -25,12 +26,15 @@ function Signup() {
     const data = await res.json();
 
     if (!res.ok) {
+      setErrorMsg(data.error[0].msg);
       setError(true);
     }
 
     if (res.ok) {
       setError(false);
-      return navigate(`${data}`);
+      setErrorMsg('');
+      localStorage.setItem('user', JSON.stringify(data));
+      return navigate(`/users/${data._id}`);
     }
   };
 
@@ -84,7 +88,7 @@ function Signup() {
           </div>
           {error && (
             <p className="text-red-500 align-center pb-10 font-bold">
-              Something went wrong.
+              {errorMsg}
             </p>
           )}
         </div>
