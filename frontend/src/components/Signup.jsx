@@ -9,8 +9,14 @@ function Signup() {
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
+    setLoading('Loading...');
+    signupUser();
+  };
+
+  const signupUser = async () => {
     const credentials = {
       username: username,
       password: password,
@@ -34,7 +40,7 @@ function Signup() {
       setError(false);
       setErrorMsg('');
       localStorage.setItem('user', JSON.stringify(data));
-      return navigate(`/users/${data._id}`);
+      return navigate('/login');
     }
   };
 
@@ -89,6 +95,11 @@ function Signup() {
           {error && (
             <p className="text-red-500 align-center pb-10 font-bold">
               {errorMsg}
+            </p>
+          )}
+          {loading && (
+            <p className="text-orange-500 align-center pb-10 font-bold">
+              {loading}
             </p>
           )}
         </div>
