@@ -5,14 +5,14 @@ const authController = require('../auth/authMiddleware');
 
 router.get('/', postsController.posts_get);
 
-router.post('/create', authController.isAuth, postsController.post_create);
+router.post('/create', postsController.post_create);
 
 router.get('/:id', postsController.post_details);
 
 router.get('/:id/edit', postsController.post_details);
-router.post('/:id/edit', authController.isAuth, postsController.post_edit);
+router.post('/:id/edit', postsController.post_edit);
 
 router.get('/:id/delete', postsController.post_details);
-router.post('/:id/delete', authController.isAuth, postsController.post_delete);
+router.post('/:id/delete', postsController.post_delete);
 
 module.exports = router;
