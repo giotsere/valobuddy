@@ -1,47 +1,17 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useSignup } from '../hooks/useSignup';
 
 function Signup() {
-  const navigate = useNavigate();
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
-  const [error, setError] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
-  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
+  const { signupUser, loading, setLoading, error } = useSignup();
+
+  const handleSubmit = async () => {
     setLoading('Loading...');
-    signupUser();
-  };
-
-  const signupUser = async () => {
-    const credentials = {
-      username: username,
-      password: password,
-      passwordConfirmation: passwordConfirmation,
-    };
-
-    let res = await fetch('/api/registration/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(credentials),
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      setErrorMsg(data.error[0].msg);
-      setError(true);
-    }
-
-    if (res.ok) {
-      setError(false);
-      setErrorMsg('');
-      localStorage.setItem('user', JSON.stringify(data));
-      return navigate('/login');
-    }
+    await signupUser(username, password, passwordConfirmation);
   };
 
   return (
@@ -85,17 +55,17 @@ function Signup() {
             onChange={(e) => setPasswordConfirmation(e.target.value)}
           />
           <div>
-            <button
-              className="px-6 py-4 mb-10 border-solid border rounded-md border-slate-900 text-slate-900 hover:bg-slate-900 hover:text-white font-bold"
-              onClick={handleSubmit}
-            >
-              Sign Up
-            </button>
+            {!loading && (
+              <button
+                className="px-6 py-4 mb-10 border-solid border rounded-md border-slate-900 text-slate-900 hover:bg-slate-900 hover:text-white font-bold"
+                onClick={handleSubmit}
+              >
+                Sign Up
+              </button>
+            )}
           </div>
           {error && (
-            <p className="text-red-500 align-center pb-10 font-bold">
-              {errorMsg}
-            </p>
+            <p className="text-red-500 align-center pb-10 font-bold">{error}</p>
           )}
           {loading && (
             <p className="text-orange-500 align-center pb-10 font-bold">
