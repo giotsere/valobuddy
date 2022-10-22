@@ -1,7 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuthContext } from '../hooks/useAuthContext';
+import { useLogout } from '../hooks/useLogout';
 
 function Navbar() {
+  const { user } = useAuthContext();
+  const { logoutUser } = useLogout();
+
+  const handleLogout = async () => {
+    await logoutUser();
+  };
+
   return (
     <nav className="h-28">
       <div className="flex h-full text-white justify-around p-4">
@@ -22,18 +31,30 @@ function Navbar() {
             >
               Browse
             </Link>
-            <Link
-              className="mr-2 p-2 font-bold cursor-pointer decoration-2 hover:underline hover:underline-offset-4"
-              to="/login"
-            >
-              Log In
-            </Link>
-            <Link
-              className="mr-2 p-2 font-bold text-slate-900 bg-white rounded border-2 border-transparent cursor-pointer hover:bg-slate-900 hover:text-white hover:border-white"
-              to="/signup"
-            >
-              Sign Up
-            </Link>
+            {!user && (
+              <>
+                <Link
+                  className="mr-2 p-2 font-bold cursor-pointer decoration-2 hover:underline hover:underline-offset-4"
+                  to="/login"
+                >
+                  Log In
+                </Link>
+                <Link
+                  className="mr-2 p-2 font-bold text-slate-900 bg-white rounded border-2 border-transparent cursor-pointer hover:bg-slate-900 hover:text-white hover:border-white"
+                  to="/signup"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
+            {user && (
+              <button
+                className="mr-2 p-2 font-bold text-slate-900 bg-white rounded border-2 border-transparent cursor-pointer hover:bg-slate-900 hover:text-white hover:border-white"
+                onClick={handleLogout}
+              >
+                Log Out
+              </button>
+            )}
           </ul>
         </div>
       </div>
