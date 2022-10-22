@@ -14,14 +14,26 @@ exports.login_post = [
     .isLength({ min: 8 })
     .escape()
     .withMessage('Password required'),
-  (req, res) => {
+  async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       return res.status(404).json({ error: errors.array() });
-    } else {
-      res.status(200).json({ msg: 'logged in' });
     }
+
+    let userID;
+
+    await User.findOne({ username: req.body.username }).then((user) => {
+      userID = user._id;
+    });
+
+    const userDetail = await UserDetail.findOne({ userID: userID });
+
+    if (!userDetail) {
+      return res.status(404).json({ error: 'User does not exist' });
+    }
+
+    res.status(200).json(userDetail);
   },
 ];
 
