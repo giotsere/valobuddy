@@ -18,7 +18,7 @@ exports.login_post = [
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.status(404).json({ error: errors.array() });
+      return res.status(400).json({ error: errors.array() });
     }
 
     let userID;
@@ -30,7 +30,7 @@ exports.login_post = [
     const userDetail = await UserDetail.findOne({ userID: userID });
 
     if (!userDetail) {
-      return res.status(404).json({ error: 'User does not exist' });
+      return res.status(400).json({ error: 'User does not exist' });
     }
 
     res.status(200).json(userDetail);
@@ -38,6 +38,7 @@ exports.login_post = [
 ];
 
 exports.logout_post = (req, res, next) => {
+  console.log(req);
   req.logout(function (err) {
     if (err) {
       return next(err);
@@ -67,7 +68,7 @@ exports.signup_post = [
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.status(404).json({ error: errors.array() });
+      return res.status(400).json({ error: errors.array() });
     }
 
     const { hash } = genPassword(req.body.password);
@@ -81,7 +82,7 @@ exports.signup_post = [
 
     user.save((err) => {
       if (err) {
-        return res.status(404).json({ error: err });
+        return res.status(400).json({ error: err });
       }
 
       userID = user._id;
@@ -91,7 +92,7 @@ exports.signup_post = [
 
       userDetail.save((err) => {
         if (err) {
-          return res.status(404).json({ error: err });
+          return res.status(400).json({ error: err });
         }
 
         res.status(200).json(userDetail);
