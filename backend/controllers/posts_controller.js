@@ -6,7 +6,7 @@ exports.posts_get = async (req, res) => {
   const posts = await Post.find({});
 
   if (!posts) {
-    return res.status(404).json({ error: 'Error fetching posts.' });
+    return res.status(400).json({ error: 'Error fetching posts.' });
   }
 
   res.status(200).json(posts);
@@ -16,13 +16,13 @@ exports.post_details = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: 'Post does not exist.' });
+    return res.status(400).json({ error: 'Post does not exist.' });
   }
 
   const post = await Post.findById(id);
 
   if (!post) {
-    return res.status(404).json({ error: 'Post does not exist.' });
+    return res.status(400).json({ error: 'Post does not exist.' });
   }
 
   res.status(200).json(post);
@@ -57,14 +57,20 @@ exports.post_create = [
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.status(404).json({ error: errors.array() });
+      return res.status(400).json({ error: errors.array() });
+    }
+
+    if (!req.user) {
+      return res
+        .status(401)
+        .json({ error: 'Need to be Signed in to create post' });
     }
 
     const post = new Post({ ...req.body });
 
     post.save((err) => {
       if (err) {
-        return res.status(404).json({ error: err });
+        return res.status(400).json({ error: err });
       }
 
       res.status(200).json(post);
@@ -75,14 +81,20 @@ exports.post_create = [
 exports.post_delete = async (req, res) => {
   const { id } = req.params;
 
-  if (req.session.viewCount) {
-    req.session.viewCount = req.session.viewCount + 1;
-  } else {
-    req.session.viewCount = 1;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: 'Post does not exist.' });
   }
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: 'Post does not exist.' });
+  if (!req.user) {
+    return res.status(401).json({ error: 'Unauthorized to delete this post' });
+  } else {
+    Post.findById(id).then((post) => {
+      if (post.userID != req.user.id) {
+        return res
+          .status(401)
+          .json({ error: 'Unauthorized to delete this post' });
+      }
+    });
   }
 
   const post = await Post.findOneAndDelete({ _id: id });
@@ -123,15 +135,27 @@ exports.post_edit = [
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.status(404).json({ error: errors.array() });
+      return res.status(400).json({ error: errors.array() });
     }
 
     const { id } = req.params;
 
+    if (!req.user) {
+      return res.status(401).json({ error: 'Unauthorized to edit this post' });
+    } else {
+      Post.findById(id).then((post) => {
+        if (post.userID != req.user.id) {
+          return res
+            .status(401)
+            .json({ error: 'Unauthorized to edit this post' });
+        }
+      });
+    }
+
     const post = new Post({ ...req.body, _id: id });
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(404).json({ error: 'Post does not exist.' });
+      return res.status(400).json({ error: 'Post does not exist.' });
     }
 
     Post.findByIdAndUpdate(id, post, {}, (err, postRes) => {
