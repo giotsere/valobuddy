@@ -135,6 +135,7 @@ function CreatePost() {
     const data = await res.json();
 
     if (!res.ok) {
+      console.log(data);
       setError(data.error);
       setLoading(false);
       setSuccess(false);
@@ -145,15 +146,16 @@ function CreatePost() {
       setError(null);
       setLoading(false);
       setSuccess(data);
+
+      document
+        .querySelectorAll('input[type=checkbox')
+        .forEach((el) => (el.checked = false));
+
       if (editing) {
         setEditing(false);
         setWasEditing(true);
         return navigate('/create');
       }
-
-      document
-        .querySelectorAll('input[type=checkbox')
-        .forEach((el) => (el.checked = false));
     }
   };
 
