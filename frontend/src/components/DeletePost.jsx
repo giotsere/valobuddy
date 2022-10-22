@@ -1,32 +1,15 @@
 import React, { useState } from 'react';
 import Post from './Post';
 import { Link, useParams } from 'react-router-dom';
+import { useDelete } from '../hooks/useDelete';
 
 function DeletePost() {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
   const { id } = useParams();
+  const { deletePost, loading, setLoading, error, success } = useDelete();
 
   const handleDelete = async () => {
     setLoading(true);
-    const res = await fetch(`/api/posts/${id}/delete`, {
-      method: 'POST',
-    });
-
-    const data = await res.json();
-
-    if (res.ok) {
-      setLoading(false);
-      setError(false);
-      setSuccess(true);
-    }
-
-    if (!res.ok) {
-      setLoading(false);
-      setError(true);
-      setSuccess(false);
-    }
+    await deletePost(id);
   };
 
   return (
