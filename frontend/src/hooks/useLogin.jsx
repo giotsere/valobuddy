@@ -26,8 +26,7 @@ export const useLogin = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        console.log(1);
-        setError(data.error[0].msg);
+        setError(data);
         setLoading(false);
       }
 
@@ -39,9 +38,10 @@ export const useLogin = () => {
         return navigate('/browse');
       }
     } else {
+      setLoading(false);
       setError('Empty field.');
     }
   };
 
-  return { loginUser, loading, setLoading, error };
+  return { loginUser, loading, setLoading, error, setError };
 };

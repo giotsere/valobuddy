@@ -6,10 +6,11 @@ function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const { loginUser, loading, setLoading, error } = useLogin();
+  const { loginUser, loading, setLoading, error, setError } = useLogin();
 
   const handleSubmit = async () => {
     setLoading('Loading...');
+    setError(null);
     await loginUser(username, password);
   };
 
@@ -55,7 +56,9 @@ function Login() {
             )}
           </div>
           {error && (
-            <p className="text-red-500 align-center pb-10 font-bold">{error}</p>
+            <p className="text-red-500 align-center pb-10 font-bold">
+              {error.error}
+            </p>
           )}
 
           {loading && (
