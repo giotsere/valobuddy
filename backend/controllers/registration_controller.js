@@ -2,43 +2,28 @@ const User = require('../models/User');
 const UserDetail = require('../models/UserDetail');
 const genPassword = require('../auth/passwordUtils').genPassword;
 const { body, validationResult } = require('express-validator');
+const passport = require('passport');
 
-exports.login_post = [
-  body('username')
-    .trim()
-    .isLength({ min: 3 })
-    .escape()
-    .withMessage('Username required'),
-  body('password')
-    .trim()
-    .isLength({ min: 8 })
-    .escape()
-    .withMessage('Password required'),
-  async (req, res) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ error: errors.array() });
+exports.login_post = async (req, res, next) => {
+  passport.authenticate('local', async (err, user) => {
+    if (err) {
+      return next(err);
     }
 
-    let userID;
+    if (!user) {
+      return res.status(400).json({ error: 'User not found' });
+    }
+    req.logIn(user, function (err) {
+      if (err) {
+        return next(err);
+      }
 
-    await User.findOne({ username: req.body.username }).then((user) => {
-      userID = user._id;
+      res.status(200).json({ username: user.username });
     });
-
-    const userDetail = await UserDetail.findOne({ userID: userID });
-
-    if (!userDetail) {
-      return res.status(400).json({ error: 'User does not exist' });
-    }
-
-    res.status(200).json(userDetail);
-  },
-];
+  })(req, res, next);
+};
 
 exports.logout_post = (req, res, next) => {
-  console.log(req);
   req.logout(function (err) {
     if (err) {
       return next(err);
@@ -90,12 +75,16 @@ exports.signup_post = [
         userID: userID,
       });
 
+      const userRes = {
+        username: user.username,
+      };
+
       userDetail.save((err) => {
         if (err) {
           return res.status(400).json({ error: err });
         }
 
-        res.status(200).json(userDetail);
+        res.status(200).json(userRes);
       });
     });
   },

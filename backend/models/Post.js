@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const PostSchema = new Schema(
   {
     name: { type: String, required: true },
+    userID: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     rank: {
       type: String,
       required: true,
@@ -131,6 +132,8 @@ const PostSchema = new Schema(
   },
   { timestamps: true }
 );
+
+//
 
 PostSchema.set('toObject', { virtuals: true });
 PostSchema.set('toJSON', { virtuals: true });
