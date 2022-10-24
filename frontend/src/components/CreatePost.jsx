@@ -7,10 +7,12 @@ import {
   rolesArr,
   initialFormState,
 } from '../utils/createPostVariables';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 function CreatePost() {
   const navigate = useNavigate();
   let { id } = useParams();
+  const { user } = useAuthContext();
 
   let [formState, dispatch] = useReducer(formReducer, initialFormState);
 
@@ -68,6 +70,7 @@ function CreatePost() {
       if (res.ok) {
         let post = {
           name: data.name,
+          userID: user.userID,
           rank: data.rank,
           region: data.region,
           roles: data.roles,
