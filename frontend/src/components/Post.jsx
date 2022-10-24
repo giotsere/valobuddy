@@ -128,7 +128,7 @@ function Post({ postRef, deleting }) {
           <div className="flex justify-between">
             {deleting ? (
               ''
-            ) : user.userID == post.userID ? (
+            ) : user && user.userID == post.userID ? (
               <>
                 {' '}
                 <Link
