@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 function Post({ postRef, deleting }) {
   const [post, setPost] = useState(postRef);
+  const { user } = useAuthContext();
 
   let { id } = useParams();
 
@@ -126,7 +128,7 @@ function Post({ postRef, deleting }) {
           <div className="flex justify-between">
             {deleting ? (
               ''
-            ) : (
+            ) : user.userID == post.userID ? (
               <>
                 {' '}
                 <Link
@@ -142,6 +144,8 @@ function Post({ postRef, deleting }) {
                   Delete
                 </Link>
               </>
+            ) : (
+              ''
             )}
           </div>
         </div>
