@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Post from '../components/Post';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 function Browse() {
   const [posts, setPosts] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const { user } = useAuthContext();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -33,7 +35,7 @@ function Browse() {
         Browse Players
       </h2>
       <Link
-        to="/create"
+        to={user ? '/create' : '/login'}
         className="my-8 p-2 font-bold text-slate-900 bg-white rounded border-2 border-transparent cursor-pointer hover:bg-slate-900 hover:text-white hover:border-white"
       >
         Create Post
