@@ -48,12 +48,20 @@ function Navbar() {
               </>
             )}
             {user && (
-              <button
-                className="mr-2 p-2 font-bold text-slate-900 bg-white rounded border-2 border-transparent cursor-pointer hover:bg-slate-900 hover:text-white hover:border-white"
-                onClick={handleLogout}
-              >
-                Log Out
-              </button>
+              <>
+                <Link
+                  className="max-w-10 mr-8 p-2  font-bold cursor-pointer decoration-2 hover:underline hover:underline-offset-4"
+                  to={`/users/${user.username}`}
+                >
+                  {user.username}
+                </Link>
+                <button
+                  className="mr-2 p-2 font-bold text-slate-900 bg-white rounded border-2 border-transparent cursor-pointer hover:bg-slate-900 hover:text-white hover:border-white"
+                  onClick={handleLogout}
+                >
+                  Log Out
+                </button>
+              </>
             )}
           </ul>
         </div>
