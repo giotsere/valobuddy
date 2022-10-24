@@ -133,13 +133,11 @@ const PostSchema = new Schema(
   { timestamps: true }
 );
 
-//
-
 PostSchema.set('toObject', { virtuals: true });
 PostSchema.set('toJSON', { virtuals: true });
 
-PostSchema.virtual('url').get(function () {
-  return '/api/posts/' + this._id;
-});
+// PostSchema.virtual('url').get(function () {
+//   return '/api/posts/' + this._id;
+// });
 
 module.exports = mongoose.model('Post', PostSchema);

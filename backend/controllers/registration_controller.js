@@ -18,7 +18,12 @@ exports.login_post = async (req, res, next) => {
         return next(err);
       }
 
-      res.status(200).json({ username: user.username });
+      const userRes = {
+        username: user.username,
+        userID: user._id,
+      };
+
+      res.status(200).json(userRes);
     });
   })(req, res, next);
 };
@@ -63,20 +68,18 @@ exports.signup_post = [
       password: hash,
     });
 
-    let userID;
-
     user.save((err) => {
       if (err) {
         return res.status(400).json({ error: err });
       }
 
-      userID = user._id;
       const userDetail = new UserDetail({
-        userID: userID,
+        userID: user._id,
       });
 
       const userRes = {
         username: user.username,
+        userID: user._id,
       };
 
       userDetail.save((err) => {
