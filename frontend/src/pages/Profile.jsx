@@ -28,6 +28,9 @@ export default function Profile() {
     fetchProfile();
   }, []);
 
+  const user = profile[0];
+  const post = profile[1];
+
   return (
     <section>
       <div className=" flex flex-col items-center">
@@ -45,22 +48,22 @@ export default function Profile() {
         {profile && (
           <div className="w-4/5 lg:w-1/2 flex flex-col">
             <div>
-              <h2 className="font-bold text-xl text-white">
-                {profile[0].username}
-              </h2>
+              <h2 className="font-bold text-xl text-white">{user.username}</h2>
               <div className="flex items-center justify-center">
                 <form className="flex flex-col lg:w-3/5 mb-20 mt-10  items-center rounded-md bg-white">
                   <label className="m-4 font-bold text-xl">Username</label>
                   <input
                     className="p-2 pl-2 m-4 mb-14 border-solid border border-gray-500 rounded"
                     type="text"
-                    placeholder="change username"
+                    placeholder={user.username}
                   />
                   <label className="m-4 font-bold text-xl">Email</label>
                   <input
                     className="p-2 pl-2 m-4 mb-14 border-solid border border-gray-500 rounded"
                     type="text"
-                    placeholder="example@example.com"
+                    placeholder={
+                      user.email ? user.email : 'example@example.com'
+                    }
                   />
                   <label className="m-4 font-bold text-xl">Password</label>
                   <input
@@ -87,7 +90,13 @@ export default function Profile() {
 
               <div className="flex items-center justify-center">
                 <div className="w-4/5 lg:w-1/2 mb-6">
-                  <Post key={profile[1]._id} postRef={profile[1]} />
+                  {profile[1] ? (
+                    <Post key={post._id} postRef={post} />
+                  ) : (
+                    <p className="text-xl text-white text-center mb-16">
+                      No posts.
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
