@@ -9,7 +9,7 @@ exports.user_details = async (req, res) => {
     return res.status(400).json({ error: 'User does not exist' });
   }
 
-  const post = await Post.findOne({ userID: user.userID });
+  const post = await Post.findOne({ userID: user.userID.toString() });
 
   res.status(200).json([user, post]);
 };
