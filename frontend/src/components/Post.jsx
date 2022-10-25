@@ -26,7 +26,7 @@ function Post({ postRef, deleting }) {
   return (
     <>
       {post && (
-        <div className="p-4 mb-12 bg-slate-800 w-80 grow text-white rounded h-fit hover:bg-slate-700 cursor-pointer">
+        <div className="p-4 mb-12 bg-slate-800 grow text-white rounded h-fit hover:bg-slate-700 cursor-pointer">
           <div className="flex">
             <img
               src="vb.png"
