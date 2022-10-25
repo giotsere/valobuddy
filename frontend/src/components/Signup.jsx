@@ -26,7 +26,7 @@ function Signup() {
         </Link>
       </div>
       <div className="w-4/5 lg:w-3/12">
-        <div className="flex flex-col mb-20 mt-10  items-center rounded-md bg-white ">
+        <div className="flex flex-col mb-20 mt-10  items-center rounded-md bg-white">
           <label className="m-4 font-bold text-xl">Username</label>
           <input
             className="p-2 pl-2 m-4 border-solid border border-gray-500 rounded"
