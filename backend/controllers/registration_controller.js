@@ -76,19 +76,16 @@ exports.signup_post = [
       const userDetail = new UserDetail({
         userID: user._id,
         username: user.username,
+        discord: '',
+        riot: '',
       });
-
-      const userRes = {
-        username: user.username,
-        userID: user._id,
-      };
 
       userDetail.save((err) => {
         if (err) {
           return res.status(400).json({ error: err });
         }
 
-        res.status(200).json(userRes);
+        res.status(200).json({ ok: 'signed up' });
       });
     });
   },
