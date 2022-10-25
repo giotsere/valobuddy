@@ -75,6 +75,7 @@ exports.signup_post = [
 
       const userDetail = new UserDetail({
         userID: user._id,
+        username: user.username,
       });
 
       const userRes = {
