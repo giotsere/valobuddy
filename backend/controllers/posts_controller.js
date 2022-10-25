@@ -60,13 +60,28 @@ exports.post_create = [
       return res.status(400).json({ error: errors.array() });
     }
 
+    console.log(req.user);
+
     if (!req.user) {
       return res
         .status(401)
         .json({ error: 'Need to be Signed in to create post' });
     }
 
-    const post = new Post({ ...req.body });
+    const post = new Post({
+      name: req.body.name,
+      userID: req.user.id,
+      rank: req.body.rank,
+      region: req.body.region,
+      microphone: req.body.microphone,
+      role: req.body.role,
+      description: req.body.description,
+      lookingFrom: req.body.lookingFrom,
+      lookingTo: req.body.lookingTo,
+      lookingRegion: req.body.lookingRegion,
+      riot: req.body.riot,
+      discord: req.body.discord,
+    });
 
     post.save((err) => {
       if (err) {
