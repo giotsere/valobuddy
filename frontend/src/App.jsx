@@ -6,7 +6,7 @@ import CreatePost from './components/CreatePost';
 import DeletePost from './components/DeletePost';
 import Login from './components/Login';
 import Signup from './components/Signup';
-import UserProfile from './components/UserProfile';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -22,7 +22,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/:id/edit" element={<CreatePost />} />
             <Route path="/:id/delete/" element={<DeletePost />} />
-            <Route path="/users/:id/" element={<UserProfile />} />
+            <Route path="/users/:id/" element={<Profile />} />
           </Routes>
         </div>
       </BrowserRouter>
