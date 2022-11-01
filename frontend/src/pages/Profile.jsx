@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Post from '../components/Post';
+
 export default function Profile() {
-  const [profile, setProfile] = useState(null);
+  const [profile, setProfile] = useState('');
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   let { id } = useParams();
