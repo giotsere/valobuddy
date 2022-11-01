@@ -32,7 +32,7 @@ exports.post_create = [
   (req, res, next) => {
     if (!Array.isArray(req.body.roles)) {
       req.body.roles =
-        typeof req.body.genre === 'undefined' ? [] : [req.body.genre];
+        typeof req.body.roles === 'undefined' ? [] : [req.body.roles];
     }
     next();
   },
@@ -60,8 +60,6 @@ exports.post_create = [
       return res.status(400).json({ error: errors.array() });
     }
 
-    console.log(req.user);
-
     if (!req.user) {
       return res
         .status(401)
@@ -74,7 +72,7 @@ exports.post_create = [
       rank: req.body.rank,
       region: req.body.region,
       microphone: req.body.microphone,
-      role: req.body.role,
+      roles: req.body.roles,
       description: req.body.description,
       lookingFrom: req.body.lookingFrom,
       lookingTo: req.body.lookingTo,
