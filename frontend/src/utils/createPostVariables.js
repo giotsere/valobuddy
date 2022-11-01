@@ -1,7 +1,7 @@
 const ranks = [
   'Iron 1',
   'Iron 2',
-  'Iron 2',
+  'Iron 3',
   'Silver 1',
   'Silver 2',
   'Silver 3',
