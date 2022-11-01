@@ -65,23 +65,16 @@ function Post({ postRef, deleting }) {
               </div>
             </div>
           </div>
-
+          <p className="font-bold mb-4">Roles</p>
+          <div className="p-4 mb-4 flex items-center bg-slate-900 rounded justify-around">
+            {post.roles.map((role) => {
+              return <span key={role}>{role} </span>;
+            })}
+          </div>
           <div className="mb-4 break-words">
             <span className="font-bold">About:</span>
             <p className="text-slate-400">{post.description}</p>
           </div>
-
-          {post.roles != '' ? (
-            <>
-              <p className="font-bold mb-4">Roles:</p>
-              <div className="p-4 mb-4 flex items-center bg-slate-900 rounded justify-around">
-                {' '}
-                {post.roles.map((post) => {
-                  return <span key={post}>{post} </span>;
-                })}
-              </div>
-            </>
-          ) : null}
 
           <p className="font-bold mb-4">Looking for players in range:</p>
           <div className="p-4 mb-4 flex items-center bg-slate-900 rounded justify-around">
