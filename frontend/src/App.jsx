@@ -10,10 +10,10 @@ import Profile from './pages/Profile';
 
 function App() {
   return (
-    <div className="App bg-slate-900 h-max">
+    <div className="App bg-slate-900">
       <BrowserRouter>
         <Navbar />
-        <div className="pages">
+        <div className="min-h-screen">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/browse" element={<Browse />} />
