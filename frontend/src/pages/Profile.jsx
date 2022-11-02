@@ -1,32 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Post from '../components/Post';
+import { useFetchUserPosts } from '../hooks/useFetchUserPosts';
 
-export default function Profile() {
-  const [profile, setProfile] = useState('');
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(true);
+function Profile() {
+  const { fetchUserPosts, error, loading, profile } = useFetchUserPosts();
   let { id } = useParams();
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      const res = await fetch(`/api/users/${id}`);
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(true);
-        setLoading(false);
-      }
-
-      if (res.ok) {
-        setProfile(data);
-        setLoading(false);
-        setError(false);
-      }
-    };
-
-    fetchProfile();
+    fetchUserPosts(id);
   }, []);
 
   const user = profile[0];
@@ -111,3 +94,5 @@ export default function Profile() {
     </section>
   );
 }
+
+export default Profile;
