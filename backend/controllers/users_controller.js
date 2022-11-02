@@ -9,9 +9,9 @@ exports.user_details = async (req, res) => {
     return res.status(400).json({ error: 'User does not exist' });
   }
 
-  const post = await Post.findOne({ userID: user.userID.toString() });
+  const posts = await Post.find({ userID: user.userID.toString() });
 
-  res.status(200).json([user, post]);
+  res.status(200).json([user, posts]);
 };
 
 exports.user_delete = function (req, res) {
