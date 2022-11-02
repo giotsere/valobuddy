@@ -29,7 +29,7 @@ function Post({ postRef, deleting }) {
         <div className="p-4 mb-12 bg-slate-800 grow text-white rounded h-fit hover:bg-slate-700 cursor-pointer">
           <div className="flex">
             <img
-              src="vb.png"
+              src="/assets/vb.png"
               alt="profile picture"
               className="mr-4 mb-8 p-4 bg-rose-600 rounded"
             />
