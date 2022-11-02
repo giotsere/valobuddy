@@ -30,7 +30,7 @@ export default function Profile() {
   }, []);
 
   const user = profile[0];
-  const post = profile[1];
+  const posts = profile[1];
 
   return (
     <section>
@@ -89,15 +89,19 @@ export default function Profile() {
             <div>
               <h2 className="font-bold text-xl text-white mb-4">Post</h2>
 
-              <div className="flex items-center justify-center">
-                <div className="w-4/5 lg:w-1/2 mb-6">
-                  {profile[1] ? (
-                    <Post key={post._id} postRef={post} />
+              <div className="r">
+                <div className="p-8 grid grid-cols-1 xl:grid-cols-2 gap-6 ">
+                  {posts == '' ? (
+                    <>
+                      {' '}
+                      <p className="text-xl text-white text-center mb-16">
+                        No posts.
+                      </p>
+                    </>
                   ) : (
-                    <p className="text-xl text-white text-center mb-16">
-                      No posts.
-                    </p>
+                    posts.map((post) => <Post key={post._id} postRef={post} />)
                   )}
+                  {posts == ''}
                 </div>
               </div>
             </div>
