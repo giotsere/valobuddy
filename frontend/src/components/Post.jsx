@@ -1,30 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuthContext';
+import { useFetchDeletePost } from '../hooks/useFetchDeletePost';
 
 function Post({ postRef, deleting }) {
   const [post, setPost] = useState(postRef);
   const { user } = useAuthContext();
-
+  const { fetchDeletePost, error, setLoading, loading } = useFetchDeletePost();
   let { id } = useParams();
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const res = await fetch(`/api/posts/${id}/delete`);
-      const data = await res.json();
-
-      if (res.ok) {
-        setPost(data);
-      }
-    };
-
     if (post === null || post === undefined) {
-      fetchPosts();
+      (async () => {
+        const data = await fetchDeletePost(id);
+        setPost(data);
+      })();
+    } else {
+      setLoading(null);
     }
   }, []);
 
   return (
     <>
+      {loading && (
+        <div className="p-4 mb-12  grow text-white rounded h-fit hover:bg-slate-700 cursor-pointer">
+          <p className="text-orange-500">{loading}</p>
+        </div>
+      )}
+      {error && (
+        <div className="p-4 mb-12  grow text-white rounded h-fit hover:bg-slate-700 cursor-pointer">
+          <p className="text-red-500">{loading}</p>
+        </div>
+      )}
       {post && (
         <div className="p-4 mb-12 bg-slate-800 grow text-white rounded h-fit hover:bg-slate-700 cursor-pointer">
           <div className="flex">
