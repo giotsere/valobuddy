@@ -2,22 +2,22 @@ import { useState } from 'react';
 
 export const useFetchUserPosts = () => {
   const [profile, setProfile] = useState('');
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState('Fetching User...');
 
   const fetchUserPosts = async (id) => {
     const res = await fetch(`/api/users/${id}`);
     const data = await res.json();
 
     if (!res.ok) {
-      setError(true);
-      setLoading(false);
+      setError('Failed to fetch User...');
+      setLoading(null);
     }
 
     if (res.ok) {
       setProfile(data);
-      setLoading(false);
-      setError(false);
+      setLoading(null);
+      setError(null);
     }
   };
 
