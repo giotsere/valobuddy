@@ -13,6 +13,7 @@ exports.login_post = async (req, res, next) => {
     if (!user) {
       return res.status(400).json({ error: 'User not found' });
     }
+
     req.logIn(user, function (err) {
       if (err) {
         return next(err);

@@ -9,7 +9,6 @@ router.post('/create', authController.isAuth, postsController.post_create);
 
 router.get('/:id', postsController.post_details);
 
-router.get('/:id/edit', postsController.post_details);
 router.post('/:id/edit', authController.isAuth, postsController.post_edit);
 
 router.get('/:id/delete', postsController.post_details);
