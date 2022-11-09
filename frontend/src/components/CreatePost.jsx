@@ -8,11 +8,14 @@ import {
   initialFormState,
 } from '../utils/createPostVariables';
 import { useAuthContext } from '../hooks/useAuthContext';
+import { useFetchUpdatePost } from '../hooks/useFetchUpdatePost';
 
 function CreatePost() {
   const navigate = useNavigate();
   let { id } = useParams();
   const { user } = useAuthContext();
+  const { fetchingError, setFetchingError, fetchUpdatePost } =
+    useFetchUpdatePost();
 
   let [formState, dispatch] = useReducer(formReducer, initialFormState);
 
@@ -58,52 +61,28 @@ function CreatePost() {
   };
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const res = await fetch(`/api/posts/${id}`);
-      const data = await res.json();
+    //fetch data if editing
+    const fetchPosts = async (id, user) => {
+      let { post, data } = await fetchUpdatePost(id, user);
 
-      if (!res.ok) {
-        setFetchingError(data.error);
-        setEditing(false);
-      }
+      handleFetch(post);
+      setFetchingError(false);
+      setEditing(true);
 
-      if (res.ok) {
-        let post = {
-          name: data.name,
-          userID: user.userID,
-          rank: data.rank,
-          region: data.region,
-          roles: data.roles,
-          microphone: data.microphone,
-          description: data.description,
-          lookingFrom: data.lookingFrom,
-          lookingTo: data.lookingTo,
-          lookingRegion: data.lookingRegion,
-          discord: data.discord,
-          riot: data.riot,
-        };
-
-        handleFetch(post);
-
-        setFetchingError(false);
-        setEditing(true);
-
-        data.roles.forEach((role) => {
-          document.querySelectorAll('input[type=checkbox').forEach((el) => {
-            if (role == el.value) {
-              el.checked = true;
-            }
-          });
+      data.roles.forEach((role) => {
+        document.querySelectorAll('input[type=checkbox').forEach((el) => {
+          if (role == el.value) {
+            el.checked = true;
+          }
         });
-      }
+      });
     };
 
     if (id) {
-      fetchPosts();
+      fetchPosts(id, user);
     }
   }, []);
 
-  const [fetchingError, setFetchingError] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
