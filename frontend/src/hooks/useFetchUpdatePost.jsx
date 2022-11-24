@@ -6,6 +6,7 @@ export const useFetchUpdatePost = () => {
   const fetchUpdatePost = async (id, user) => {
     const res = await fetch(`/api/posts/${id}`);
     const data = await res.json();
+    const userID = user.user.passport.user.id;
 
     if (!res.ok) {
       setFetchingError(data.error);
@@ -15,7 +16,7 @@ export const useFetchUpdatePost = () => {
     if (res.ok) {
       let post = {
         name: data.name,
-        userID: user.userID,
+        userID: userID,
         rank: data.rank,
         region: data.region,
         roles: data.roles,

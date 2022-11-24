@@ -8,6 +8,7 @@ function Post({ postRef, deleting }) {
   const { user } = useAuthContext();
   const { fetchDeletePost, error, setLoading, loading } = useFetchDeletePost();
   let { id } = useParams();
+  const userID = user?.user.passport.user.id;
 
   useEffect(() => {
     if (post === null || post === undefined) {
@@ -134,7 +135,7 @@ function Post({ postRef, deleting }) {
           <div className="flex justify-between">
             {deleting ? (
               ''
-            ) : user && user.userID == post.userID ? (
+            ) : user && userID == post.userID ? (
               <>
                 {' '}
                 <Link

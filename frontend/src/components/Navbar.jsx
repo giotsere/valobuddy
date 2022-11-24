@@ -6,6 +6,7 @@ import { useLogout } from '../hooks/useLogout';
 function Navbar() {
   const { user } = useAuthContext();
   const { logoutUser } = useLogout();
+  const username = user?.user.passport.user.username;
 
   const handleLogout = async () => {
     await logoutUser();
@@ -51,9 +52,9 @@ function Navbar() {
               <>
                 <Link
                   className="max-w-10 mr-8 p-2  font-bold cursor-pointer decoration-2 hover:underline hover:underline-offset-4"
-                  to={`/users/${user.username}`}
+                  to={`/users/${username}`}
                 >
-                  {user.username}
+                  {username}
                 </Link>
                 <button
                   className="mr-2 p-2 font-bold text-slate-900 bg-white rounded border-2 border-transparent cursor-pointer hover:bg-slate-900 hover:text-white hover:border-white"
