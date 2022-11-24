@@ -1,6 +1,6 @@
 import React from 'react';
 
-function FilterFields({ field }) {
+function FilterFields({ field, handleClick }) {
   return (
     <div>
       {' '}
@@ -12,6 +12,7 @@ function FilterFields({ field }) {
         id=""
         value={field}
         placeholder={field}
+        onClick={(e) => handleClick(e)}
       />
     </div>
   );
