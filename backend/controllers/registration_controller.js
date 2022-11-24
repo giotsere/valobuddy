@@ -6,6 +6,7 @@ const passport = require('passport');
 
 exports.login_post = async (req, res, next) => {
   passport.authenticate('local', async (err, user) => {
+    console.log(req.session);
     if (err) {
       return next(err);
     }
@@ -20,8 +21,7 @@ exports.login_post = async (req, res, next) => {
       }
 
       const userRes = {
-        username: user.username,
-        userID: user._id,
+        user: req.session,
       };
 
       res.status(200).json(userRes);
