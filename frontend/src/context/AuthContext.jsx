@@ -20,9 +20,15 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
-
     if (user) {
-      dispatch({ type: 'LOGIN', payload: user });
+      let expires = user.user.cookie.expires.split('T')[0];
+      let date = new Date().toISOString().split('T')[0];
+
+      if (expires > date) {
+        dispatch({ type: 'LOGIN', payload: user });
+      } else {
+        localStorage.removeItem('user');
+      }
     }
   }, []);
 
