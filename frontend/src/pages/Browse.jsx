@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { Link } from 'react-router-dom';
 import Post from '../components/Post';
 import { useAuthContext } from '../hooks/useAuthContext';
@@ -9,6 +9,28 @@ function Browse() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const { user } = useAuthContext();
+
+  const handleSubmit = async (filterState, e) => {
+    e.preventDefault();
+    console.log(filterState);
+    let res = await fetch('/api/posts/filtered', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(filterState),
+    });
+
+    let data = await res.json();
+
+    if (!res.ok) {
+      setError(res.error);
+      setLoading(false);
+    }
+
+    if (res.ok) {
+      setPosts(data);
+      setError(false);
+    }
+  };
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -45,13 +67,13 @@ function Browse() {
         <section className="text-white mt-8">
           {/* filter */}
           <p className="font-bold text-xl mb-6">Filter by</p>
-          <FilterBar />
+          <FilterBar handleSubmit={handleSubmit} />
         </section>
         {/* posts */}
         <section className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {' '}
           {loading && <div>Fetching data...</div>}
-          {error && <div>Error: Couldn't fetch data...</div>}
+          {error && <div>{error}</div>}
           {posts && posts.map((post) => <Post key={post._id} postRef={post} />)}
         </section>
       </div>
