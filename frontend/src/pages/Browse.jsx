@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Post from '../components/Post';
-
 import { useAuthContext } from '../hooks/useAuthContext';
-
 import FilterBar from '../components/FilterBar';
 
 function Browse() {
