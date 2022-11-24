@@ -14,4 +14,6 @@ router.post('/:id/edit', authController.isAuth, postsController.post_edit);
 router.get('/:id/delete', postsController.post_details);
 router.post('/:id/delete', authController.isAuth, postsController.post_delete);
 
+router.post('/filtered', postsController.post_filtered);
+
 module.exports = router;

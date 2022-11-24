@@ -1,6 +1,7 @@
 const Post = require('../models/Post');
 const mongoose = require('mongoose');
 const { body, validationResult } = require('express-validator');
+const { ranks, regions } = require('../utils/filterVars');
 
 exports.posts_get = async (req, res) => {
   const posts = await Post.find({});
@@ -180,3 +181,35 @@ exports.post_edit = [
     });
   },
 ];
+
+exports.post_filtered = async (req, res) => {
+  let originalValues = [
+    { name: 'ranks', value: ranks },
+    { name: 'regions', value: regions },
+  ];
+
+  let fieldValues = [
+    { name: 'ranks', value: req.body.ranks },
+    { name: 'regions', value: req.body.regions },
+  ];
+
+  //if one of the fields are empty, replace it with the default values for that field,then perform the filtering
+  fieldValues.forEach((field, index) => {
+    if (field.value == '') {
+      fieldValues[index].value = originalValues[index].value;
+    }
+  });
+
+  const posts = await Post.find({
+    $and: [
+      { rank: { $in: fieldValues[0].value } },
+      { region: { $in: fieldValues[1].value } },
+    ],
+  });
+
+  if (!posts) {
+    return res.status(400).json({ error: 'Error fetching posts.' });
+  }
+
+  res.status(200).json(posts);
+};
