@@ -4,13 +4,51 @@ const { body, validationResult } = require('express-validator');
 const { ranks, regions } = require('../utils/filterVars');
 
 exports.posts_get = async (req, res) => {
-  const posts = await Post.find({});
+  let originalValues = [
+    { name: 'ranks', value: ranks },
+    { name: 'regions', value: regions },
+  ];
 
-  if (!posts) {
-    return res.status(400).json({ error: 'Error fetching posts.' });
+  let fieldValues = [];
+
+  //if one of the fields are empty, replace it with the default values for that field,then perform the filtering
+
+  let query = {};
+
+  const page = req.body.page || 1;
+  const ITEMS_PER_PAGE = 8;
+
+  if (req.body.filterState) {
+    fieldValues = [
+      { name: 'ranks', value: req.body.filterState.ranks },
+      { name: 'regions', value: req.body.filterState.regions },
+    ];
+
+    fieldValues.forEach((field, index) => {
+      if (field.value == '') {
+        fieldValues[index].value = originalValues[index].value;
+      }
+    });
+
+    query = {
+      $and: [
+        { rank: { $in: fieldValues[0].value } },
+        { region: { $in: fieldValues[1].value } },
+      ],
+    };
   }
 
-  res.status(200).json(posts);
+  try {
+    const skip = (page - 1) * ITEMS_PER_PAGE;
+    const count = await Post.countDocuments(query);
+    const posts = await Post.find(query).limit(ITEMS_PER_PAGE).skip(skip);
+
+    console.log(count);
+    const pageCount = Math.ceil(count / ITEMS_PER_PAGE);
+    res.status(200).json({ pagination: { count, pageCount }, posts });
+  } catch (e) {
+    res.status(400).json({ error: e });
+  }
 };
 
 exports.post_details = async (req, res) => {
@@ -181,35 +219,3 @@ exports.post_edit = [
     });
   },
 ];
-
-exports.post_filtered = async (req, res) => {
-  let originalValues = [
-    { name: 'ranks', value: ranks },
-    { name: 'regions', value: regions },
-  ];
-
-  let fieldValues = [
-    { name: 'ranks', value: req.body.ranks },
-    { name: 'regions', value: req.body.regions },
-  ];
-
-  //if one of the fields are empty, replace it with the default values for that field,then perform the filtering
-  fieldValues.forEach((field, index) => {
-    if (field.value == '') {
-      fieldValues[index].value = originalValues[index].value;
-    }
-  });
-
-  const posts = await Post.find({
-    $and: [
-      { rank: { $in: fieldValues[0].value } },
-      { region: { $in: fieldValues[1].value } },
-    ],
-  });
-
-  if (!posts) {
-    return res.status(400).json({ error: 'Error fetching posts.' });
-  }
-
-  res.status(200).json(posts);
-};
