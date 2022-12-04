@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { Link } from 'react-router-dom';
 import Post from '../components/Post';
 import { useAuthContext } from '../hooks/useAuthContext';
 import FilterBar from '../components/FilterBar';
+import filterReducer from '../reducers/filterReducer';
 
 function Browse() {
   const [posts, setPosts] = useState(null);
@@ -11,6 +12,47 @@ function Browse() {
   const { user } = useAuthContext();
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
+
+  let initialFilterState = { ranks: '', regions: '', roles: '' };
+  let [filterState, dispatch] = useReducer(filterReducer, initialFilterState);
+
+  const handleRanks = (e) => {
+    const checkedState = e.target.checked;
+    const checkedValue = e.target.value;
+
+    if (checkedState) {
+      dispatch({
+        type: 'HANDLE RANKS ADD',
+        payload: checkedValue,
+      });
+    }
+
+    if (!checkedState) {
+      dispatch({
+        type: 'HANDLE RANKS REMOVE',
+        payload: checkedValue,
+      });
+    }
+  };
+
+  const handleRegion = (e) => {
+    const checkedState = e.target.checked;
+    const checkedValue = e.target.value;
+
+    if (checkedState) {
+      dispatch({
+        type: 'HANDLE REGION ADD',
+        payload: checkedValue,
+      });
+    }
+
+    if (!checkedState) {
+      dispatch({
+        type: 'HANDLE REGION REMOVE',
+        payload: checkedValue,
+      });
+    }
+  };
 
   //const [isFiltered, setIsFiltered] = useState(false);
   // const handleSubmit = async (filterState, e) => {
@@ -47,7 +89,7 @@ function Browse() {
   //   }
   // };
 
-  const fetchPosts = async (filterState, e) => {
+  const fetchPosts = async (e) => {
     e?.preventDefault();
     const res = await fetch('/api/posts', {
       method: 'POST',
@@ -102,7 +144,11 @@ function Browse() {
         <section className="text-white mt-8">
           {/* filter */}
           <p className="font-bold text-xl mb-6">Filter by</p>
-          <FilterBar fetchPosts={fetchPosts} />
+          <FilterBar
+            fetchPosts={fetchPosts}
+            handleRegion={handleRegion}
+            handleRanks={handleRanks}
+          />
         </section>
         {/* posts */}
         <section>

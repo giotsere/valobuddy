@@ -1,50 +1,8 @@
 import { useReducer } from 'react';
 import FilterFields from '../components/FilterFields';
 import { rolesArr, regions, ranks } from '../utils/createPostVariables';
-import filterReducer from '../reducers/filterReducer';
 
-function FilterBar({ fetchPosts }) {
-  let initialFilterState = { ranks: '', regions: '', roles: '' };
-  let [filterState, dispatch] = useReducer(filterReducer, initialFilterState);
-
-  const handleRanks = (e) => {
-    const checkedState = e.target.checked;
-    const checkedValue = e.target.value;
-
-    if (checkedState) {
-      dispatch({
-        type: 'HANDLE RANKS ADD',
-        payload: checkedValue,
-      });
-    }
-
-    if (!checkedState) {
-      dispatch({
-        type: 'HANDLE RANKS REMOVE',
-        payload: checkedValue,
-      });
-    }
-  };
-
-  const handleRegion = (e) => {
-    const checkedState = e.target.checked;
-    const checkedValue = e.target.value;
-
-    if (checkedState) {
-      dispatch({
-        type: 'HANDLE REGION ADD',
-        payload: checkedValue,
-      });
-    }
-
-    if (!checkedState) {
-      dispatch({
-        type: 'HANDLE REGION REMOVE',
-        payload: checkedValue,
-      });
-    }
-  };
-
+function FilterBar({ fetchPosts, handleRegion, handleRanks }) {
   const handleVisibilityChange = (e) => {
     const nextSibling = e.target.nextSibling;
     const target = e.target;
@@ -68,8 +26,9 @@ function FilterBar({ fetchPosts }) {
       }
     }
   };
+
   return (
-    <form onSubmit={(e) => fetchPosts(filterState, e)}>
+    <form onSubmit={(e) => fetchPosts(e)}>
       <div onClick={(e) => handleVisibilityChange(e)}>
         <p className="font-bold text-lg mb-6 cursor-pointer" id="ranks">
           Ranks
