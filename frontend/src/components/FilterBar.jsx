@@ -3,7 +3,7 @@ import FilterFields from '../components/FilterFields';
 import { rolesArr, regions, ranks } from '../utils/createPostVariables';
 import filterReducer from '../reducers/filterReducer';
 
-function FilterBar({ handleSubmit }) {
+function FilterBar({ fetchPosts }) {
   let initialFilterState = { ranks: '', regions: '', roles: '' };
   let [filterState, dispatch] = useReducer(filterReducer, initialFilterState);
 
@@ -69,7 +69,7 @@ function FilterBar({ handleSubmit }) {
     }
   };
   return (
-    <form onSubmit={(e) => handleSubmit(filterState, e)}>
+    <form onSubmit={(e) => fetchPosts(filterState, e)}>
       <div onClick={(e) => handleVisibilityChange(e)}>
         <p className="font-bold text-lg mb-6 cursor-pointer" id="ranks">
           Ranks
