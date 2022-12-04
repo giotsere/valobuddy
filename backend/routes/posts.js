@@ -3,7 +3,7 @@ const router = express.Router();
 const postsController = require('../controllers/posts_controller');
 const authController = require('../auth/authMiddleware');
 
-router.get('/', postsController.posts_get);
+router.post('/', postsController.posts_get);
 
 router.post('/create', authController.isAuth, postsController.post_create);
 
@@ -14,6 +14,7 @@ router.post('/:id/edit', authController.isAuth, postsController.post_edit);
 router.get('/:id/delete', postsController.post_details);
 router.post('/:id/delete', authController.isAuth, postsController.post_delete);
 
-router.post('/filtered', postsController.post_filtered);
+//moved filtering to posts_get
+// router.post('/filtered', postsController.post_filtered);
 
 module.exports = router;
