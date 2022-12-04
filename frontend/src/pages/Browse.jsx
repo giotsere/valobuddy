@@ -13,6 +13,7 @@ function Browse() {
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
 
+  //use reducer for filtering, passed down to FilterBar component
   let initialFilterState = { ranks: '', regions: '', roles: '' };
   let [filterState, dispatch] = useReducer(filterReducer, initialFilterState);
 
@@ -89,6 +90,7 @@ function Browse() {
   //   }
   // };
 
+  //original post fetching and filtered fetching for pagination
   const fetchPosts = async (e) => {
     e?.preventDefault();
     const res = await fetch('/api/posts', {

@@ -33,6 +33,7 @@ function Profile() {
           <div className="w-4/5 lg:w-1/2 flex flex-col">
             <div>
               <h2 className="font-bold text-xl text-white">{user.username}</h2>
+              <div>{user.avatar}eeeeeeeee</div>
               <div className="flex items-center justify-center">
                 <form className="flex flex-col lg:w-3/5 mb-20 mt-10  items-center rounded-md bg-white">
                   <label className="m-4 font-bold text-xl">Username</label>
