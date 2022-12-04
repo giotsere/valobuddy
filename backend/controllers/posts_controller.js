@@ -43,7 +43,6 @@ exports.posts_get = async (req, res) => {
     const count = await Post.countDocuments(query);
     const posts = await Post.find(query).limit(ITEMS_PER_PAGE).skip(skip);
 
-    console.log(count);
     const pageCount = Math.ceil(count / ITEMS_PER_PAGE);
     res.status(200).json({ pagination: { count, pageCount }, posts });
   } catch (e) {
