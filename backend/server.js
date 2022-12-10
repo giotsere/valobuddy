@@ -34,7 +34,7 @@ const store = MongoStore.create({
   collectionName: 'sessions',
 });
 
-app.use(cors({ credentials: true, origin: 'https://valobuddy.netlify.app/' }));
+app.use(cors({ credentials: true, origin: 'https://valobuddy.netlify.app' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
@@ -60,5 +60,5 @@ app.use('/api/users', usersRouter);
 app.use('/api/posts', postsRouter);
 app.use('/api/registration', registrationRouter);
 app.use('/', (req, res) => {
-  res.render('/ path');
+  res.status(200).json({ hi: '/' });
 });
