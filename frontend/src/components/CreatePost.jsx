@@ -101,8 +101,10 @@ function CreatePost() {
   const addPost = async (post) => {
     let res;
     if (id) {
-      res = await fetch(`/api/posts/${id}/edit`, {
+      res = await fetch(`https://valobuddy.onrender.com/api/posts/${id}/edit`, {
         method: 'POST',
+        withCredentials: true,
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(post),
       });

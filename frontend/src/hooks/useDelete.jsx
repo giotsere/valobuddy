@@ -6,9 +6,14 @@ export const useDelete = () => {
   const [success, setSuccess] = useState(false);
 
   const deletePost = async (id) => {
-    const res = await fetch(`/api/posts/${id}/delete`, {
-      method: 'POST',
-    });
+    const res = await fetch(
+      `https://valobuddy.onrender.com/api/posts/${id}/delete`,
+      {
+        method: 'POST',
+        withCredentials: true,
+        credentials: 'include',
+      }
+    );
 
     const data = await res.json();
 

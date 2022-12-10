@@ -5,7 +5,10 @@ export const useFetchDeletePost = () => {
   const [loading, setLoading] = useState('Fetching Post...');
 
   const fetchDeletePost = async (id) => {
-    const res = await fetch(`/api/posts/${id}/delete`);
+    const res = await fetch(
+      `https://valobuddy.onrender.com/api/posts/${id}/delete`,
+      { withCredentials: true, credentials: 'include' }
+    );
     const data = await res.json();
 
     if (!res.ok) {
