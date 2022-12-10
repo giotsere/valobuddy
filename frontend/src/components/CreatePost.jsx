@@ -101,13 +101,13 @@ function CreatePost() {
   const addPost = async (post) => {
     let res;
     if (id) {
-      res = await fetch(`/api/posts/${id}/edit`, {
+      res = await fetch(`https://valobuddy.onrender.com/api/posts/${id}/edit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(post),
       });
     } else {
-      res = await fetch('/api/posts/create', {
+      res = await fetch('https://valobuddy.onrender.com/api/posts/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(post),

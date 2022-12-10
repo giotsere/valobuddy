@@ -14,11 +14,14 @@ export const useSignup = () => {
       passwordConfirmation: passwordConfirmation,
     };
 
-    let res = await fetch('/api/registration/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(credentials),
-    });
+    let res = await fetch(
+      'https://valobuddy.onrender.com/api/registration/signup',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(credentials),
+      }
+    );
 
     const data = await res.json();
 

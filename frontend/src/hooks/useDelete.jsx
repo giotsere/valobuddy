@@ -7,7 +7,7 @@ export const useDelete = () => {
 
   const deletePost = async (id) => {
     const res = await fetch(
-      `${import.meta.env.VITE_API_URL}/api/posts/${id}/delete`,
+      `https://valobuddy.onrender.com/api/posts/${id}/delete`,
       {
         method: 'POST',
       }

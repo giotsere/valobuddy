@@ -17,11 +17,14 @@ export const useLogin = () => {
         password: password,
       };
 
-      let res = await fetch('/api/registration/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credentials),
-      });
+      let res = await fetch(
+        'https://valobuddy.onrender.com/api/registration/login',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(credentials),
+        }
+      );
 
       const data = await res.json();
 
