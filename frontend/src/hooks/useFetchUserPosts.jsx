@@ -6,7 +6,7 @@ export const useFetchUserPosts = () => {
   const [loading, setLoading] = useState('Fetching User...');
 
   const fetchUserPosts = async (id) => {
-    const res = await fetch(`https://valobuddy.onrender.com/api/users/${id}`);
+    const res = await fetch(`/api/users/${id}`);
     const data = await res.json();
 
     if (!res.ok) {

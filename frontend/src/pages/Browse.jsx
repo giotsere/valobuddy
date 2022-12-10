@@ -93,7 +93,7 @@ function Browse() {
   //original post fetching and filtered fetching for pagination
   const fetchPosts = async (e) => {
     e?.preventDefault();
-    const res = await fetch('https://valobuddy.onrender.com/api/posts', {
+    const res = await fetch('/api/posts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ page, filterState }),

@@ -6,13 +6,10 @@ export const useLogout = () => {
   const { dispatch } = useAuthContext();
 
   const logoutUser = async () => {
-    const res = await fetch(
-      'https://valobuddy.onrender.com/api/registration/logout',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      }
-    );
+    const res = await fetch('/api/registration/logout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
 
     if (res.ok) {
       localStorage.removeItem('user');
