@@ -47,7 +47,7 @@ app.use(
     cookie: {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 3,
-      sameSite: 'none',
+      sameSite: 'secure',
     },
   })
 );
@@ -60,3 +60,6 @@ app.use(passport.session());
 app.use('/api/users', usersRouter);
 app.use('/api/posts', postsRouter);
 app.use('/api/registration', registrationRouter);
+app.use('/', (req, res) => {
+  res.render('/ path');
+});
