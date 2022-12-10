@@ -29,6 +29,11 @@ const registrationRouter = require('./routes/registration');
 
 const app = express();
 
+const store = MongoDBStore.create({
+  mongoUrl: mongoDB,
+  collectionName: 'sessions',
+});
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -38,10 +43,7 @@ app.use(
     secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({
-      mongoUrl: mongoDB,
-      collectionName: 'sessions',
-    }),
+    store,
     cookie: {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 3,
