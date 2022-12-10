@@ -6,9 +6,12 @@ export const useDelete = () => {
   const [success, setSuccess] = useState(false);
 
   const deletePost = async (id) => {
-    const res = await fetch(`/api/posts/${id}/delete`, {
-      method: 'POST',
-    });
+    const res = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/posts/${id}/delete`,
+      {
+        method: 'POST',
+      }
+    );
 
     const data = await res.json();
 
