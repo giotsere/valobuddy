@@ -34,10 +34,9 @@ const store = MongoStore.create({
   collectionName: 'sessions',
 });
 
-app.use(cors());
+app.use(cors({ credentials: true, origin: 'https://valobuddy.netlify.app/' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.set('trust proxy', 1);
 app.use(
   session({
     secret: sessionSecret,
