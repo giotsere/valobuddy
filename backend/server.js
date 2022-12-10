@@ -29,7 +29,7 @@ const registrationRouter = require('./routes/registration');
 
 const app = express();
 
-const store = MongoDBStore.create({
+const store = MongoStore.create({
   mongoUrl: mongoDB,
   collectionName: 'sessions',
 });
