@@ -31,6 +31,7 @@ const app = express();
 
 const store = MongoStore.create({
   clientPromise: mongoDB,
+  mongoUrl: mongoDB,
   collectionName: 'sessions',
 });
 
