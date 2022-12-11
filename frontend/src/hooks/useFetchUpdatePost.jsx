@@ -4,7 +4,7 @@ export const useFetchUpdatePost = () => {
   const [fetchingError, setFetchingError] = useState(false);
 
   const fetchUpdatePost = async (id, user) => {
-    const res = await fetch(`/api/posts/${id}`, {
+    const res = await fetch(`https://valobuddy.onrender.com/api/posts/${id}`, {
       withCredentials: true,
       credentials: 'include',
     });
