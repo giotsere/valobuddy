@@ -111,6 +111,8 @@ function CreatePost() {
     } else {
       res = await fetch('https://valobuddy.onrender.com/api/posts/create', {
         method: 'POST',
+        withCredentials: true,
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(post),
       });
