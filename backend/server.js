@@ -29,24 +29,29 @@ const registrationRouter = require('./routes/registration');
 
 const app = express();
 
-const store = MongoStore.create({
-  mongoUrl: mongoDB,
-  collectionName: 'sessions',
-});
-
-app.use(cors({ credentials: true, origin: 'https://valobuddy.netlify.app' }));
+app.use(
+  cors({
+    credentials: true,
+    origin: ['https://valobuddy.netlify.app', 'http://127.0.0.1:3001'],
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.set('trust proxy', 1);
 app.use(
   session({
     secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
-    store,
+    store: MongoStore.create({
+      mongoUrl: mongoDB,
+      collectionName: 'sessions',
+    }),
     cookie: {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 3,
-      sameSite: 'true',
+      ssecure: true,
+      sameSite: 'none',
     },
   })
 );
@@ -59,6 +64,3 @@ app.use(passport.session());
 app.use('/api/users', usersRouter);
 app.use('/api/posts', postsRouter);
 app.use('/api/registration', registrationRouter);
-app.use('/', (req, res) => {
-  res.status(200).json({ hi: '/' });
-});
