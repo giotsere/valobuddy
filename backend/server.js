@@ -32,7 +32,11 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: ['https://valobuddy.netlify.app', 'http://127.0.0.1:3001'],
+    origin: [
+      'https://valobuddy.netlify.app',
+      'http://127.0.0.1:3001',
+      'https://valobuddy.tsereteli.dev',
+    ],
   })
 );
 app.use(express.json());
